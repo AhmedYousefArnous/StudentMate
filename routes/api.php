@@ -1,9 +1,17 @@
 <?php
 
 use Illuminate\Http\Request;
+// Members
 use App\Http\Resources\Student as StudentResource;
+use App\Http\Resources\StudentFull as StudentFullResource;
+
+// Structure
 use App\Http\Resources\Structure\University as UniversityResource;
-use App\Http\Resources\StudentCollection;
+
+// Materials
+use App\Http\Resources\Materials\Series as SeriesResource;
+use App\Http\Resources\Materials\SeriesFull as SeriesFullResource;
+
 
 
 use App\Models\Members\Students\Student;
@@ -19,17 +27,12 @@ use App\Models\Structure\University;
 |
 */
 
-// Route::get('/student/test', function() {
-//   return new StudentResource(Student::find(2));
+
+// Route::middleware('api')->prefix('generic')->group(function() {
+//     Route::get('/', 'API\APIController@index')->name('api.index');
+//     Route::get('/{id}', 'API\APIController@show')->name('api.show');
 //
-//   // return new StudentCollection(Student::where('id',2)->get());
 // });
-
-Route::middleware('api')->prefix('generic')->group(function() {
-    Route::get('/', 'API\APIController@index')->name('api.index');
-    Route::get('/{id}', 'API\APIController@show')->name('api.show');
-
-});
 
 
 // Student Routes
@@ -45,22 +48,32 @@ Route::middleware('api')->prefix('student')->group(function() {
 // With Authorization
 Route::middleware('auth:student-api')->prefix('student')->group(function() {
 
-    Route::get('/{id}', function($id) {
-      return new StudentResource(Student::find($id));
-    });
-    
-    Route::get('/', function() {
-      return new StudentResource(Student::find(auth()->user()->id));
-    });
+  Route::get('/{id}', function($id) {
+    return new StudentResource(Student::find($id));
+  });
+
+  Route::get('/', function() {
+    return new StudentFullResource(Student::find(auth()->user()->id));
+  });
+
+
 
     // Route::get('/profile', 'API\StudentProfileController@profile')->name('api.student.profile.private');
 });
 
-
-Route::middleware('auth:student-api')->prefix('conversations')->group(function() {
+Route::middleware('auth:student-api')->prefix('series')->group(function() {
+    Route::get('/{id}', function() {
+      return SeriesFullResource::collection(Student::find(auth()->user()->id)->Series);
+    });
 
     Route::get('/', function() {
-      return new StudentResource(Student::find(auth()->user()->id));
+      return SeriesResource::collection(Student::find(auth()->user()->id)->Series);
     });
 
 });
+
+// Route::middleware('auth:student-api')->prefix('conversations')->group(function() {
+//     Route::get('/', function() {
+//       return new StudentResource(Student::find(auth()->user()->id));
+//     });
+// });
