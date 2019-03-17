@@ -21,7 +21,7 @@ class ExamFull extends JsonResource
            'year'    => $this->year,
 
            'url'     => json_decode($this->url),
-           // 'professor'      => $this->professor_id,
+           'professor'             => new Professor($this->Professor),
            // 'university'      => new Structure\University($this->University),
            // 'faculty'         => new Structure\Faculty($this->Faculty),
            // 'series'          => new Series($this->Series),

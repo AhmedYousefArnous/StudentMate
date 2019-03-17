@@ -7,6 +7,7 @@ use App\Http\Resources\Structure\Category;
 use App\Http\Resources\Structure\Faculty;
 use App\Http\Resources\Structure\Department;
 use App\Http\Resources\Structure\Level;
+use App\Http\Resources\Members\Professor;
 
 use App\Http\Resources\Student;
 
@@ -42,6 +43,8 @@ class SeriesFull extends JsonResource
             'regular_lecture_time_2' => $this->regular_lecture_time_2,
             'regular_section_time' => $this->regular_section_time,
             'regular_section_time_2' => $this->regular_section_time_2,
+
+            'professor'             => new Professor($this->Professor),
 
             'enrolled_students'     => Student::collection($this->Students),
             'recommendations'       => Recommendation::collection($this->Recommendations),
