@@ -20,6 +20,18 @@ use App\Http\Resources\Materials\LectureSectionFull as LectureSectionFullResourc
 use App\Http\Resources\Materials\Handwriting as HandwritingResource;
 use App\Http\Resources\Materials\HandwritingFull as HandwritingFullResource;
 
+use App\Http\Resources\Materials\Recommendation as RecommendationResource;
+use App\Http\Resources\Materials\RecommendationFull as RecommendationFullResource;
+
+use App\Http\Resources\Materials\Book as BookResource;
+use App\Http\Resources\Materials\BookFull as BookFullResource;
+
+use App\Http\Resources\Materials\Part as PartResource;
+use App\Http\Resources\Materials\PartFull as PartFullResource;
+
+use App\Http\Resources\Materials\Exam as ExamResource;
+use App\Http\Resources\Materials\ExamFull as ExamFullResource;
+
 
 use App\Models\Members\Students\Student;
 
@@ -27,6 +39,10 @@ use App\Models\Materials\Series;
 use App\Models\Materials\Lecture;
 use App\Models\Materials\LectureSection;
 use App\Models\Materials\Handwriting;
+use App\Models\Materials\Recommendation;
+use App\Models\Materials\Book;
+use App\Models\Materials\Part;
+use App\Models\Materials\Exam;
 
 use App\Models\Structure\University;
 /*
@@ -74,13 +90,46 @@ Route::middleware('auth:student-api')->prefix('student')->group(function() {
 });
 
 Route::middleware('auth:student-api')->prefix('series')->group(function() {
-    Route::get('/{id}', function($id) {
-      return new SeriesFullResource(Series::find($id));
-    });
 
-    Route::get('/', function() {
-      return SeriesResource::collection(Student::find(auth()->user()->id)->Series);
+  Route::prefix('{series_id}/recommendations')->group(function($series_id) {
+    Route::get('/', function($series_id) {
+      return RecommendationResource::collection(Series::find($series_id)->Recommendations);
     });
+    Route::get('/{id}', function($series_id, $id) {
+      return new RecommendationFullResource(Recommendation::find($id));
+    });
+  });
+  Route::prefix('{series_id}/books')->group(function($series_id) {
+    Route::get('/', function($series_id) {
+      return BookResource::collection(Series::find($series_id)->Books);
+    });
+    Route::get('/{id}', function($series_id, $id) {
+      return new BookFullResource(Book::find($id));
+    });
+  });
+  Route::prefix('{series_id}/parts')->group(function($series_id) {
+    Route::get('/', function($series_id) {
+      return PartResource::collection(Series::find($series_id)->Parts);
+    });
+    Route::get('/{id}', function($series_id, $id) {
+      return new PartFullResource(Part::find($id));
+    });
+  });
+  Route::prefix('{series_id}/exams')->group(function($series_id) {
+    Route::get('/', function($series_id) {
+      return ExamResource::collection(Series::find($series_id)->Exams);
+    });
+    Route::get('/{id}', function($series_id, $id) {
+      return new ExamFullResource(Exam::find($id));
+    });
+  });
+
+  Route::get('/{id}', function($id) {
+    return new SeriesFullResource(Series::find($id));
+  });
+  Route::get('/', function() {
+    return SeriesResource::collection(Student::find(auth()->user()->id)->Series);
+  });
 
 });
 
@@ -114,9 +163,3 @@ Route::middleware('auth:student-api')->prefix('lectures/{lecture_id}')->group(fu
       });
 
 });
-
-// Route::middleware('auth:student-api')->prefix('conversations')->group(function() {
-//     Route::get('/', function() {
-//       return new StudentResource(Student::find(auth()->user()->id));
-//     });
-// });

@@ -3,6 +3,9 @@
 namespace App\Http\Resources\Materials;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Members\Professor;
+use App\Http\Resources\Structure\Faculty;
+use App\Http\Resources\Structure\University;
 
 class ExamFull extends JsonResource
 {
@@ -22,9 +25,9 @@ class ExamFull extends JsonResource
 
            'url'     => json_decode($this->url),
            'professor'             => new Professor($this->Professor),
-           // 'university'      => new Structure\University($this->University),
-           // 'faculty'         => new Structure\Faculty($this->Faculty),
-           // 'series'          => new Series($this->Series),
+           'university'            => new University($this->University),
+           'faculty'               => new Faculty($this->Faculty),
+           'series'                => new Series($this->Series),
 
         ];
      }

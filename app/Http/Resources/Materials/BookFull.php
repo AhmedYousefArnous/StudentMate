@@ -21,9 +21,9 @@ class BookFull extends JsonResource
            'created' => $this->created_at,
            'creator'      => $this->creator,
 
-           'url'     => json_decode($this->url)
+           'url'     => json_decode($this->url),
            'description'  => $this->description,
-           // 'series'       => Series::collection($this->Series
+           'series'       => Series::collection($this->Series)
          ];
      }
 }

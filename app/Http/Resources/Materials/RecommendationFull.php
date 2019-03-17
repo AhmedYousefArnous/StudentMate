@@ -12,19 +12,18 @@ class RecommendationFull extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+
     public function toArray($request)
     {
-      public function toArray($request)
-      {
-          return [
-            'id'          => $this->id,
-            'name'        => $this->name
+        return [
+          'id'          => $this->id,
+          'name'        => $this->name,
 
-            'description' => $this->description,
-            'url'         => $this->url,
-            'created'     => $this->created_at
-            
-          ];
-      }
+          'description' => $this->description,
+          'url'         => $this->url,
+          'created'     => $this->created_at,
+          'series'      => Series::collection($this->Series)
+        ];
     }
+
 }
