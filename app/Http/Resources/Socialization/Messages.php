@@ -4,7 +4,7 @@ namespace App\Http\Resources\Socialization;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Conversation extends JsonResource
+class Messages extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,12 @@ class Conversation extends JsonResource
     {
       return [
         'id'        => $this->id,
-        'name'      => $this->name,
-        'group'     => new Groups($this->Group),
+        'sender_id'      => $this->sender_id,
+        'reciever_id'     => $this->reciever_id,
         'created'   => $this->created_at,
+        'message'   => $this->message,
+        'url'       => json_decode($this->media_url),
+        'delete_for_me' => $this->delete_for_me,
       ];
-    }
+  }
 }

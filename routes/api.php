@@ -32,6 +32,9 @@ use App\Http\Resources\Materials\PartFull as PartFullResource;
 use App\Http\Resources\Materials\Exam as ExamResource;
 use App\Http\Resources\Materials\ExamFull as ExamFullResource;
 
+use App\Http\Resources\Socialization\Conversation as ConversationResource;
+use App\Http\Resources\Socialization\ConversationFull as ConversationFullResource;
+
 
 use App\Models\Members\Students\Student;
 
@@ -43,6 +46,7 @@ use App\Models\Materials\Recommendation;
 use App\Models\Materials\Book;
 use App\Models\Materials\Part;
 use App\Models\Materials\Exam;
+use App\Models\Members\Students\Socialization\Conversation;
 
 use App\Models\Structure\University;
 /*
@@ -68,14 +72,13 @@ use App\Models\Structure\University;
 // Without Authorization
 Route::middleware('api')->prefix('student')->group(function() {
     // Route::post('/register', 'API\StudentProfileController@register')->name('api.student.register');
-
-
 });
 
 
 // Student Routes
 // With Authorization
 Route::middleware('auth:student-api')->prefix('student')->group(function() {
+
 
   Route::get('/{id}', function($id) {
     return new StudentResource(Student::find($id));
@@ -87,6 +90,15 @@ Route::middleware('auth:student-api')->prefix('student')->group(function() {
 
 
     // Route::get('/profile', 'API\StudentProfileController@profile')->name('api.student.profile.private');
+});
+
+Route::middleware('auth:student-api')->prefix('/conversations')->group(function() {
+  Route::get('/', function() {
+    return ConversationResource::collection(Student::find(auth()->user()->id)->Conversations);
+  });
+  Route::get('/{id}', function($id) {
+    return new ConversationFullResource(Conversation::find($id));
+  });
 });
 
 Route::middleware('auth:student-api')->prefix('series')->group(function() {
@@ -132,7 +144,6 @@ Route::middleware('auth:student-api')->prefix('series')->group(function() {
   });
 
 });
-
 
 Route::middleware('auth:student-api')->prefix('lectures/{lecture_id}')->group(function($lecture_id) {
 
