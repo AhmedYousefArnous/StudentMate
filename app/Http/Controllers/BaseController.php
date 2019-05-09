@@ -1,6 +1,6 @@
 <?php
 
-namespace TCG\Voyager\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use TCG\Voyager\Database\Schema\SchemaManager;
@@ -32,7 +32,7 @@ class BaseController extends VoyagerBaseController
 
     public function index(Request $request)
     {
-      
+
         // GET THE SLUG, ex. 'posts', 'pages', etc.
         $slug = $this->getSlug($request);
 

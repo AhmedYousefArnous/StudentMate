@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers;
+use App\Http\Controllers\BaseController;
+
 class BaseAPIController extends BaseController
 {
     //
