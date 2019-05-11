@@ -80,7 +80,7 @@ Route::middleware('api')->prefix('student')->group(function() {
 Route::middleware('auth:student-api')->prefix('student')->group(function() {
 
 
-  Route::post('/update-first', 'API\StudentProfileController@firstProfile')->name('api.student.profile.first.update');
+  Route::post('/first-update', 'API\StudentProfileController@firstProfile')->name('api.student.profile.first.update');
 
   Route::get('/{id}', function($id) {
     return new StudentResource(Student::find($id));

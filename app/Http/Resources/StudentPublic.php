@@ -4,7 +4,7 @@ namespace App\Http\Resources;
   return [
     'id'              => $this->id,
     'name'            => $this->username,
-    'name_arabic'     => $this->name_ar,
+    'name_arabic'     => $this->username_ar,
     'university'      => new Structure\University($this->University),
     'faculty'         => new Structure\Faculty($this->Faculty),
     'department'      => new Structure\Department($this->Department),

@@ -94,7 +94,47 @@ class StudentProfileController extends APIController
 
 
       public function firstProfile(Request $request) {
-        
+
+          if(!$request->expectsJson()) {
+              return $this->sendError("Unauthorized", 401);
+          }
+
+          $validator = Validator::make($request->all(),[
+              'university_id' => ['required'],
+              'faculty_id' => ['required'],
+              'department_id' => ['required'],
+              'section' => ['required'],
+              'card_id' => ['required'],
+              'username_ar' => ['required'],
+              'level_id' => ['required'],
+              'gender' => ['required'],
+              'term' => ['required'],
+          ]);
+
+          if($validator->fails()) {
+              return $this->sendError("Validation Failed", $validator->errors());
+          }
+
+
+          $input = $request->all();
+          $student = Student::find(auth()->user()->id);
+
+
+          $student->university_id     = $input['university_id'];
+          $student->faculty_id        = $input['faculty_id'];
+          $student->department_id     = $input['department_id'];
+          $student->section           = $input['section'];
+          $student->card_id           = $input['card_id'];
+          $student->username_ar       = $input['username_ar'];
+          $student->level_id          = $input['level_id'];
+          $student->gender            = $input['gender'];
+          $student->term              = $input['term'];
+
+
+          $student->save();
+
+          return $this->sendResponse(true, 'Student Data Updated Successfully');
+
       }
 
       public function optionalValidation($column , $constraints) {
