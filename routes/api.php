@@ -80,6 +80,8 @@ Route::middleware('api')->prefix('student')->group(function() {
 Route::middleware('auth:student-api')->prefix('student')->group(function() {
 
 
+  Route::post('/update-first', 'API\StudentProfileController@firstProfile')->name('api.student.profile.first.update');
+
   Route::get('/{id}', function($id) {
     return new StudentResource(Student::find($id));
   });
@@ -88,8 +90,7 @@ Route::middleware('auth:student-api')->prefix('student')->group(function() {
     return new StudentFullResource(Student::find(auth()->user()->id));
   });
 
-
-    // Route::get('/profile', 'API\StudentProfileController@profile')->name('api.student.profile.private');
+  Route::post('/', 'API\StudentProfileController@updateProfile')->name('api.student.profile.update');
 });
 
 Route::middleware('auth:student-api')->prefix('/conversations')->group(function() {

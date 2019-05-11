@@ -20,7 +20,7 @@ class BaseAPIController extends BaseController
     }
 
 
-    public function sendError($error, $code = 404, $errorMessages = [] ) {
+    public function sendError($error, $errorMessages = [], $code = 404 ) {
         $respose = [
             'success' => false,
             'message' => $error
