@@ -24,9 +24,6 @@ class Student extends \TCG\Voyager\Models\User
       return $this->belongsTo('App\Models\Structure\Department');
     }
 
-    public function Section() {
-      return $this->belongsTo('App\Models\Structure\Section');
-    }
 
     public function Level() {
       return $this->belongsTo('App\Models\Structure\Level');
@@ -35,7 +32,7 @@ class Student extends \TCG\Voyager\Models\User
 
     // belongsToMany Relations
     public function Series() {
-        return $this->belongsToMany('App\Models\Materials\Series','student_assign_series', 'student_id', 'series_id');
+        return $this->belongsToMany('App\Models\Materials\Series','students_series', 'student_id', 'series_id');
     }
 
     public function Conversations() {
@@ -47,7 +44,7 @@ class Student extends \TCG\Voyager\Models\User
     public function Channels() {
       return $this->belongsToMany(
         'App\Models\Members\Students\Socialization\Channel',
-         'channels_subscriber', 'student_id', 'channel_id');
+         'channels_subscribers', 'student_id', 'channel_id');
     }
 
     public function SubsribedGroups() {

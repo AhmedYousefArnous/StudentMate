@@ -1,0 +1,90 @@
+### Student
+  ---- Without Authorization
+  ## register
+    /api/student/register
+    POST
+    # Params
+      {
+        username,
+        email,
+        password,
+        c_password
+      }
+
+  ---- With Authorization
+      {
+        Authorization: Bearer [token]
+      }
+  ## private profile
+    /api/student
+    GET
+  ## public Profile
+    /api/student/{id}
+    GET
+    
+--------------------------------------------------------------------------------------------------
+  ## Login
+    /oauth/token
+    POST
+    # Params
+      {
+        grant_type: password,
+        client_id: 2,
+        client_secret: InyRQkEdYmXHksyDUwrYT5XrHIxFORMvzXGOs90b,
+        password,
+        username // email
+      }
+--------------------------------------------------------------------------------------------------
+  ## refresh token
+    /Oauth/token/refresh
+    POST
+    # Params
+      {
+        refresh_token,
+
+      }
+--------------------------------------------------------------------------------------------------
+### generic
+  /api/generic
+  GET
+  # Params
+  {
+    slug: {
+      'categories',
+      'students',
+      'series',
+      'lectures',
+        'handwritings',
+        'sections',
+      'parts',
+      'exams',
+      'books',
+      'recommendations'
+    },
+    search // desired word,
+    key // collumn,
+    filter: contains | equal,
+    order_by,
+    order_direction,
+    page
+
+  }
+
+  /api/generic/{id}
+  GET
+  # Params
+  {
+    slug: {
+      'categories',
+      'students',
+      'series',
+      'lectures',
+        'handwritings',
+        'sections',
+      'parts',
+      'exams',
+      'books',
+      'recommendations'
+    }
+  }
+-------------------------------------------------------------------------------------------------
