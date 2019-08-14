@@ -9,7 +9,7 @@ class Book extends Model
 {
   public function Series() {
     return $this->belongsToMany(
-      'App\Models\Materials\Series',
-      'series_book', 'book_id', 'series_id');
+      'App\Models\Materials\SeriesVersion',
+      'series_book', 'book_id', 'series_version_id');
   }
 }

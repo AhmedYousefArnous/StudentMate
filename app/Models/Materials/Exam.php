@@ -13,7 +13,7 @@ class Exam extends Model
   }
 
   public function Series() {
-    return $this->belongsTo('App\Models\Materials\Series');
+    return $this->belongsTo('App\Models\Materials\SeriesVersion');
   }
 
   public function Faculty() {
