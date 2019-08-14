@@ -16,24 +16,9 @@ use App\Http\Resources\Materials\SeriesVersionFull as SeriesVersionFullResource;
 
 
 use App\Http\Resources\Materials\LectureFull as LectureFullResource;
-
 use App\Http\Resources\Materials\LectureSection as LectureSectionResource;
-use App\Http\Resources\Materials\LectureSectionFull as LectureSectionFullResource;
 
-use App\Http\Resources\Materials\Handwriting as HandwritingResource;
 use App\Http\Resources\Materials\HandwritingFull as HandwritingFullResource;
-
-use App\Http\Resources\Materials\Recommendation as RecommendationResource;
-use App\Http\Resources\Materials\RecommendationFull as RecommendationFullResource;
-
-use App\Http\Resources\Materials\Book as BookResource;
-use App\Http\Resources\Materials\BookFull as BookFullResource;
-
-use App\Http\Resources\Materials\Part as PartResource;
-use App\Http\Resources\Materials\PartFull as PartFullResource;
-
-use App\Http\Resources\Materials\Exam as ExamResource;
-use App\Http\Resources\Materials\ExamFull as ExamFullResource;
 
 use App\Http\Resources\Socialization\Conversation as ConversationResource;
 use App\Http\Resources\Socialization\ConversationFull as ConversationFullResource;
@@ -48,10 +33,6 @@ use App\Models\Materials\SeriesVersion;
 use App\Models\Materials\Lecture;
 use App\Models\Materials\LectureSection;
 use App\Models\Materials\Handwriting;
-use App\Models\Materials\Recommendation;
-use App\Models\Materials\Book;
-use App\Models\Materials\Part;
-use App\Models\Materials\Exam;
 
 use App\Models\Members\Students\Socialization\Conversation;
 
@@ -65,8 +46,10 @@ use App\Models\Members\Students\Socialization\Conversation;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
+// $respose = [
+//   'success' => false,
+//   'message' => "Not Found"
+// ];
 Route::middleware('api')->prefix('generic')->group(function() {
     Route::get('/', 'API\APIController@index')->name('api.index');
     Route::get('/{id}', 'API\APIController@show')->name('api.show');
@@ -106,45 +89,90 @@ Route::middleware('auth:student-api')
 Route::middleware('auth:student-api')->prefix('series')->group(function() {
   Route::get('/', function() {
     return SeriesResource::collection(Student::find(auth()->user()->id)->Series);
-  });
+  }); 
   Route::get('/{id}', function($id) {
-    return new SeriesFullResource(Series::find($id));
+    $series = Series::find($id);
+    if(!isset($series))
+    {
+      $respose = [
+        'success' => false,
+        'message' => "Not Found"
+      ];
+      return response()->json($respose , 404);
+    }
+    return new SeriesFullResource($series);
   });
 
   Route::get('/{id}/{year}', function($id, $year) {
-    return new SeriesVersionFullResource(SeriesVersion::where('year', $year)->firstOrFail());
+    $series = SeriesVersion::where('year', $year)->firstOrFail();
+    if(!isset($series))
+    {
+      $respose = [
+        'success' => false,
+        'message' => "Not Found"
+      ];
+      return response()->json($respose , 404);
+    }
+    return new SeriesVersionFullResource($series);
   });
 });
 
-Route::middleware('auth:student-api')->prefix('lectures/{lecture_id}')->group(function($lecture_id) {
+// Lectures
+Route::middleware('auth:student-api')
+  ->name('api.lecture')
+  ->get('lectures/{lecture_id}', function($lecture_id) {
+        $lecture = Lecture::find($lecture_id);
+        if(!isset($lecture))
+        {
+          $respose = [
+            'success' => false,
+            'message' => "Not Found"
+          ];
+          return response()->json($respose , 404);
+        }
+        return new LectureFullResource($lecture);
+    }   
+  );
 
-      Route::prefix('/sections')->group(function($lecture_id) {
+// Lectures Sections
+Route::middleware('auth:student-api')
+  ->name('api.lecture.section')
+  ->get('/sections/{section_id}', function($section_id) {
+        $section = LectureSection::find($section_id);
+        if(!isset($section))
+        {
+          $respose = [
+            'success' => false,
+            'message' => "Not Found"
+          ];          
+          return response()->json($respose , 404);
+        }
+        return new LectureSectionResource($section);
+   }   
+  );
 
-          Route::get('/{section_id}', function($lecture_id, $section_id) {
-            return new LectureSectionFullResource(LectureSection::find($section_id));
-          });
+  // Route::prefix('/sections')->group(function($lecture_id) {
 
-          Route::get('/', function($lecture_id) {
-            return LectureSectionResource::collection(Lecture::find($lecture_id)->Sections);
-          });
+  //     Route::get('/{section_id}', function($lecture_id, $section_id) {
+  //       return new LectureSectionFullResource(LectureSection::find($section_id));
+  //     });
 
-      });
-      Route::prefix('/handwritings')->group(function($lecture_id) {
+  //     Route::get('/', function($lecture_id) {
+  //       return LectureSectionResource::collection(Lecture::find($lecture_id)->Sections);
+  //     });
 
-          Route::get('/{handwritings_id}', function($lecture_id, $handwritings_id) {
-            return new HandwritingFullResource(Handwriting::find($handwritings_id));
-          });
+  // });
+  // Route::prefix('/handwritings')->group(function($lecture_id) {
 
-          Route::get('/', function($lecture_id) {
-            return HandwritingResource::collection(Lecture::find($lecture_id)->Handwriting);
-          });
+  //     Route::get('/{handwritings_id}', function($lecture_id, $handwritings_id) {
+  //       return new HandwritingFullResource(Handwriting::find($handwritings_id));
+  //     });
 
-      });
-      Route::get('/', function($lecture_id) {
-        return new LectureFullResource(Lecture::find($lecture_id));
-      });
+  //     Route::get('/', function($lecture_id) {
+  //       return HandwritingResource::collection(Lecture::find($lecture_id)->Handwriting);
+  //     });
 
-});
+  // });
 
 // Socializations
 Route::middleware('auth:student-api')->prefix('/conversations')->group(function() {          
