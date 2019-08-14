@@ -71,15 +71,13 @@ Route::middleware('api')->prefix('generic')->group(function() {
 // Student Routes
 // Without Authorization
 Route::middleware('api')->prefix('student')->group(function() {
-    Route::post('/register', 'API\StudentProfileController@register')->name('api.student.register');
+  Route::post('/register', 'API\StudentProfileController@register')->name('api.student.register');
 });
 
 
 // Student Routes
 // With Authorization
 Route::middleware('auth:student-api')->prefix('student')->group(function() {
-
-
   Route::post('/first-update', 'API\StudentProfileController@firstProfile')->name('api.student.profile.first.update');
 
   Route::get('/{id}', function($id) {

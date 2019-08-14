@@ -15,14 +15,24 @@ class StudentFull extends JsonResource
      public function toArray($request)
      {
          return [
-             "public" => require_once "StudentPublic.php",
-             "private" => [
+              // "public" => require_once "StudentPublic.php",
                $this->mergeWhen(auth()->user()->id === $this->id, [
-                 'email'               => $this->email,
-                 'card_id'             => $this->card_id,
-                 'phone'               => $this->phone,
-                 'joined'              => $this->created_at,
-                 'updated'             => $this->updated_at,
+                'id'              => $this->id ,
+                'joined'          => $this->created_at,
+                'name'            => $this->username  ,
+                'name_arabic'     => $this->username_ar ,
+                'university'      => new Structure\University($this->University),
+                'faculty'         => new Structure\Faculty($this->Faculty) ,
+                'department'      => new Structure\Department($this->Department) ,
+                'level'           => new Structure\Level($this->Level) ,
+                'section'         => $this->section ,
+                'term'            => $this->term ? 'Second' : 'First', 
+                'gender'          => $this->gender ? 'Male' : 'Famale',
+                'email'           => $this->email ,
+                'phone'           => $this->phone  ,
+                'card_id'         => $this->card_id,
+                'updated'         => $this->updated_at,
+                'options'         => json_decode($this->options),
                  // Relations
                  'enrolled_series' => Materials\Series::collection($this->Series),
                  'Conversations'   => Socialization\Conversation::collection($this->Conversations),
@@ -59,7 +69,6 @@ class StudentFull extends JsonResource
                      ),
                    ],
                ])
-             ]
 
          ];
      }
