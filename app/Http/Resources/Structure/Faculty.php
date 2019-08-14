@@ -3,6 +3,8 @@
 namespace App\Http\Resources\Structure;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Structure\Department;
+
 
 class Faculty extends JsonResource
 {
@@ -15,11 +17,12 @@ class Faculty extends JsonResource
     public function toArray($request)
     {
         return [
-          'id' => $this->id,
-          'name' => $this->name,
+          'id'                => $this->id,
+          'name'              => $this->name,
+          'departments'       => Department::collection(($this->Departments)),
           // 'head_professor_id' => $this->head_professor_id,
           // 'description' => $this->description,
-          'banner' => $this->banner,
+          // 'banner' => $this->banner,
           // 'university_id' => $this->university_id,
           // 'created_at' => $this->created_at,
           // 'updated_at' => $this->updated_at,

@@ -13,6 +13,9 @@ use TCG\Voyager\Database\Schema\SchemaManager;
 use App\Models\Student;
 use Validator;
 
+use App\Http\Resources\Structure\University as UniversityResource;
+use App\Models\Structure\University;
+
 class StudentProfileController extends APIController
 {
 
@@ -93,50 +96,59 @@ class StudentProfileController extends APIController
     }
 
 
-      public function firstProfile(Request $request) {
+    public function firstProfile(Request $request) {
 
-          if(!$request->expectsJson()) {
-              return $this->sendError("Unauthorized", 401);
-          }
+        if(!$request->expectsJson()) {
+            return $this->sendError("Unauthorized", 401);
+        }
 
-          $validator = Validator::make($request->all(),[
-              'university_id' => ['required'],
-              'faculty_id' => ['required'],
-              'department_id' => ['required'],
-              'section' => ['required'],
-              'card_id' => ['required'],
-              'username_ar' => ['required'],
-              'level_id' => ['required'],
-              'gender' => ['required'],
-              'term' => ['required'],
-          ]);
+        $validator = Validator::make($request->all(),[
+            'university_id' => ['required'],
+            'faculty_id' => ['required'],
+            'department_id' => ['required'],
+            'section' => ['required'],
+            'level_id' => ['required'],
+            'term' => ['required'],
+            'card_id' => ['required'],
+            'username_ar' => ['required'],
+            'gender' => ['required'],
+        ]);
 
-          if($validator->fails()) {
-              return $this->sendError("Validation Failed", $validator->errors());
-          }
-
-
-          $input = $request->all();
-          $student = Student::find(auth()->user()->id);
+        if($validator->fails()) {
+            return $this->sendError("Validation Failed", $validator->errors());
+        }
 
 
-          $student->university_id     = $input['university_id'];
-          $student->faculty_id        = $input['faculty_id'];
-          $student->department_id     = $input['department_id'];
-          $student->section           = $input['section'];
-          $student->card_id           = $input['card_id'];
-          $student->username_ar       = $input['username_ar'];
-          $student->level_id          = $input['level_id'];
-          $student->gender            = $input['gender'];
-          $student->term              = $input['term'];
+        $input = $request->all();
+        $student = Student::find(auth()->user()->id);
 
 
-          $student->save();
+        $student->university_id     = $input['university_id'];
+        $student->faculty_id        = $input['faculty_id'];
+        $student->department_id     = $input['department_id'];
+        $student->section           = $input['section'];
+        $student->card_id           = $input['card_id'];
+        $student->username_ar       = $input['username_ar'];
+        $student->level_id          = $input['level_id'];
+        $student->gender            = $input['gender'];
+        $student->term              = $input['term'];
 
-          return $this->sendResponse(true, 'Student Data Updated Successfully');
 
-      }
+        $student->save();
 
+        return $this->sendResponse(true, 'Student Data Updated Successfully');
+
+    }
+
+    public function firstProfileContent(Request $request) {
+    
+        if(!$request->expectsJson()) {
+            return $this->sendError("Unauthorized", 401);
+        }
+      
+
+        return $this->sendResponse(UniversityResource::collection(University::all()));    
+    }
       public function optionalValidation($column , $constraints) {
           $validator = Validator::make($this->inputs,[
               $column    => $constraints

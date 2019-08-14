@@ -78,18 +78,35 @@ Route::middleware('api')->prefix('student')->group(function() {
 // Student Routes
 // With Authorization
 Route::middleware('auth:student-api')->prefix('student')->group(function() {
-  Route::post('/first-update', 'API\StudentProfileController@firstProfile')->name('api.student.profile.first.update');
-
+  Route::get('/', function() {
+    return new StudentFullResource(Student::find(auth()->user()->id));
+  });
+  
   Route::get('/{id}', function($id) {
     return new StudentResource(Student::find($id));
   });
 
-  Route::get('/', function() {
-    return new StudentFullResource(Student::find(auth()->user()->id));
-  });
-
   Route::post('/', 'API\StudentProfileController@updateProfile')->name('api.student.profile.update');
+
+  Route::post('/first', 'API\StudentProfileController@firstProfile')->name('api.student.profile.first.update');
+
+  // Route::
+
 });
+
+
+Route::middleware('auth:student-api')
+            ->get('/first/content', 'API\StudentProfileController@firstProfileContent')
+            ->name('api.student.profile.first.update.content');
+// prefix('/first')->group(function() {
+//   Route::get('/', function() {
+//     return UniversityResource::collection(University::all());
+//   });
+//   // Route::get('/{id}', function($id) {
+//   //   return new ConversationFullResource(Conversation::find($id));
+//   // });
+// });
+
 
 Route::middleware('auth:student-api')->prefix('/conversations')->group(function() {
   Route::get('/', function() {

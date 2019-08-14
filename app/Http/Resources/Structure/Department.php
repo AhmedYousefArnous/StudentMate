@@ -19,7 +19,7 @@ class Department extends JsonResource
         'name' => $this->name,
         // 'head_professor_id' => $this->head_professor_id,
         // 'description' => $this->description,
-        'banner' => $this->banner,
+        // 'banner' => $this->banner,
         // 'university_id' => $this->university_id,
         // 'created_at' => $this->created_at,
         // 'updated_at' => $this->updated_at,

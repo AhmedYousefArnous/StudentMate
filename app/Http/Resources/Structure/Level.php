@@ -17,7 +17,7 @@ class Level extends JsonResource
         return [
             'id'      => $this->id,
             'name'    => $this->name,
-            'icon'    => $this->icon
+            // 'icon'    => $this->icon
         ];
     }
 }
