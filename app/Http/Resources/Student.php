@@ -15,7 +15,7 @@ class Student extends JsonResource
     public function toArray($request)
     {
         return [
-          "public" => require "StudentPublic.php"
+            require "StudentPublic.php"
         ];
     }
 }

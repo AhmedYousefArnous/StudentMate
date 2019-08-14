@@ -151,36 +151,10 @@ Route::middleware('auth:student-api')
    }   
   );
 
-  // Route::prefix('/sections')->group(function($lecture_id) {
-
-  //     Route::get('/{section_id}', function($lecture_id, $section_id) {
-  //       return new LectureSectionFullResource(LectureSection::find($section_id));
-  //     });
-
-  //     Route::get('/', function($lecture_id) {
-  //       return LectureSectionResource::collection(Lecture::find($lecture_id)->Sections);
-  //     });
-
-  // });
-  // Route::prefix('/handwritings')->group(function($lecture_id) {
-
-  //     Route::get('/{handwritings_id}', function($lecture_id, $handwritings_id) {
-  //       return new HandwritingFullResource(Handwriting::find($handwritings_id));
-  //     });
-
-  //     Route::get('/', function($lecture_id) {
-  //       return HandwritingResource::collection(Lecture::find($lecture_id)->Handwriting);
-  //     });
-
-  // });
-
 // Socializations
-Route::middleware('auth:student-api')->prefix('/conversations')->group(function() {          
-  Route::get('/', function() {
-    return ConversationResource::collection(Student::find(auth()->user()->id)->Conversations);
-  });  
-  Route::get('/{id}', function($id) {
-    return new ConversationFullResource(Conversation::find($id));
-  });  
+Route::middleware('auth:student-api') 
+  ->name('api.student.conversastion')
+  ->get('/conversations/{conversation_id}', function($conversation_id) {
+        return new ConversationFullResource(Conversation::find($conversation_id));
 });  
 
