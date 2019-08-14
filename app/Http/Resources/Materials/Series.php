@@ -3,10 +3,9 @@
 namespace App\Http\Resources\Materials;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Structure\Category;
 use App\Http\Resources\Structure\Faculty;
-use App\Http\Resources\Structure\Department;
-use App\Http\Resources\Structure\Level;
+use App\Http\Resources\Structure\University;
+use App\Http\Resources\Materials\SeriesVersion;
 
 
 class Series extends JsonResource
@@ -21,15 +20,12 @@ class Series extends JsonResource
     public function toArray($request)
     {
         return [
-          'id' => $this->id,
-          'name' => $this->name,
-          'category'   => new Category($this->Category),
-          'faculty'    => new Faculty($this->Faculty),
-          'department' => new Department($this->Department),
-          'level'      => new Level($this->Level),
-          'created'    => $this->created_at,
-          'banner'     => $this->banner,
-
-        ];
+            'id' => $this->id,
+            'name' => $this->name,
+            'university' => new University($this->University),
+            'faculty'    => new Faculty($this->Faculty),
+            'verions'       => SeriesVersion::collection($this->Versions),
+          ];
+ 
     }
 }

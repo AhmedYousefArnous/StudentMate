@@ -15,8 +15,13 @@ class Recommendation extends JsonResource
     public function toArray($request)
     {
         return [
-          'id'      => $this->id,
-          'name'    => $this->name
+            'id'          => $this->id,
+            'name'        => $this->name,
+
+            'description' => $this->description,
+            'url'            => json_decode($this->url),
+            'created'     => $this->created_at,
+            // 'series'      => Series::collection($this->Series)
         ];
     }
 }

@@ -14,13 +14,13 @@ class Part extends JsonResource
      */
 
       public function toArray($request)
-      {
+      {          
           return [
             'id'      => $this->id,
             'name'    => $this->name,
             'created' => $this->created_at,
-            'creator'      => $this->creator,
-
+            'creator' => $this->creator,
+            'url'     => json_decode($this->url)
          ];
       }
 }

@@ -19,7 +19,6 @@ class Faculty extends JsonResource
         return [
           'id'                => $this->id,
           'name'              => $this->name,
-          'departments'       => Department::collection(($this->Departments)),
           // 'head_professor_id' => $this->head_professor_id,
           // 'description' => $this->description,
           // 'banner' => $this->banner,

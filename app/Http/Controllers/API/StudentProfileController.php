@@ -13,7 +13,7 @@ use TCG\Voyager\Database\Schema\SchemaManager;
 use App\Models\Student;
 use Validator;
 
-use App\Http\Resources\Structure\University as UniversityResource;
+use App\Http\Resources\Structure\UniversityFull as UniversityFullResource;
 use App\Models\Structure\University;
 
 class StudentProfileController extends APIController
@@ -147,7 +147,7 @@ class StudentProfileController extends APIController
         }
       
 
-        return $this->sendResponse(UniversityResource::collection(University::all()));    
+        return $this->sendResponse(UniversityFullResource::collection(University::all()));    
     }
       public function optionalValidation($column , $constraints) {
           $validator = Validator::make($this->inputs,[

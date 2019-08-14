@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Structure;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Structure\Faculty;
 
 class University extends JsonResource
 {
@@ -16,11 +15,9 @@ class University extends JsonResource
      */
     public function toArray($request)
     {
-        // return parent::toArray($request);
         return [
           'id'              => $this->id,
           'name'            => $this->name,
-          'faculties'       => Faculty::collection(($this->Faculties)),
         //   'enrolled_series' => Materials\Series::collection($this->Series),
           // 'description'     => $this->description,
           // 'head_professor'  => $this->head_professor_id,
