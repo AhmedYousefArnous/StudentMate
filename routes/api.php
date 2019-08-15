@@ -155,6 +155,15 @@ Route::middleware('auth:student-api')
 Route::middleware('auth:student-api') 
   ->name('api.student.conversastion')
   ->get('/conversations/{conversation_id}', function($conversation_id) {
-        return new ConversationFullResource(Conversation::find($conversation_id));
+        $conversation = Student::find(auth()->user()->id)->Conversations()->find($conversation_id);
+        return new ConversationFullResource($conversation);
+});  
+
+
+Route::middleware('auth:student-api') 
+  ->name('api.student.channels')
+  ->get('/channels/{channel_id}', function($channel_id) {
+        $channel = Student::find(auth()->user()->id)->Channels()->find($channel_id);
+        return new ConversationFullResource($channel);
 });  
 

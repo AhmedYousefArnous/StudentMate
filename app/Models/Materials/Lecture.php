@@ -9,7 +9,7 @@ class Lecture extends Model
 {
     // belongsTo Relations
     public function Series() {
-      return $this->belongsTo('App\Models\Materials\SeriesVerion');
+      return $this->belongsTo('App\Models\Materials\SeriesVersion');
     }
 
     public function Professor() {

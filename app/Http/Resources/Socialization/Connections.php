@@ -14,6 +14,8 @@ class Connections extends JsonResource
      */
     public function toArray($request)
     {
+        return parent::toArray($request);
+
         return [
           'id'           => $this->id,
           'sender_id'    => $this->sender_id,

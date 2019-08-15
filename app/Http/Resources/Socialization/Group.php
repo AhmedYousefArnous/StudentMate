@@ -4,7 +4,7 @@ namespace App\Http\Resources\Socialization;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Groups extends JsonResource
+class Group extends JsonResource
 {
     /**
      * Transform the resource into an array.

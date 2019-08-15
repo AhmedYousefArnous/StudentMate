@@ -31,14 +31,15 @@ class Student extends \TCG\Voyager\Models\User
 
 
     // belongsToMany Relations
-    public function Series() {
+    public function Series() {  
         return $this->belongsToMany('App\Models\Materials\Series','students_series', 'student_id', 'series_id');
     }
 
     public function Conversations() {
         return $this->belongsToMany(
           'App\Models\Members\Students\Socialization\Conversation',
-          'conversations_students', 'student_id', 'conversation_id');
+          'conversations_students', 'student_id', 'conversation_id')
+                    ->where('group_id' ,null);
     }
 
     public function Channels() {

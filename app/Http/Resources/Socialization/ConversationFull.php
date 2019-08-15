@@ -3,7 +3,8 @@
 namespace App\Http\Resources\Socialization;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+// use App\Models\Members\Students\Student;
+use App\Http\Resources\Student;
 class ConversationFull extends JsonResource
 {
     /**
@@ -14,13 +15,15 @@ class ConversationFull extends JsonResource
      */
      public function toArray($request)
      {
+
+
        return [
          'id'        => $this->id,
          'name'      => $this->name,
-         'group'     => new Groups($this->Group),
          'created'   => $this->created_at,
-
-         'messages'  => Messages::collection($this->Messages)
+         
+         'messages'  => Messages::collection($this->Messages),
+         'students'  => Student::collection($this->Students)
        ];
      }
 }

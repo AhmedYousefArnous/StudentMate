@@ -38,8 +38,8 @@ class StudentFull extends JsonResource
                  'Conversations'   => Socialization\Conversation::collection($this->Conversations),
                  'Channels'   => Socialization\Channels::collection($this->Channels),
                  'groups' => [
-                   'managed'   => new Socialization\Groups($this->ManagedGroups),
-                   'subscribed'   => Socialization\Groups::collection($this->SubsribedGroups)
+                   'managed'   => new Socialization\Group($this->ManagedGroups),
+                   'subscribed'   => Socialization\Group::collection($this->SubsribedGroups)
                    ],
                  'connections' => [
                    'send' => Socialization\Connections::collection(

@@ -14,10 +14,10 @@ class Conversation extends JsonResource
      */
     public function toArray($request)
     {
+
       return [
         'id'        => $this->id,
         'name'      => $this->name,
-        'group'     => new Groups($this->Group),
         'created'   => $this->created_at,
       ];
     }
