@@ -13,4 +13,9 @@ class Channel extends Model
           'channel_id', 
           'student_id');
     }
+
+    public function Notifications() {
+      return $this->hasMany('App\Models\Members\Students\Socialization\ChannelsNotification');
+    }
+    
 }

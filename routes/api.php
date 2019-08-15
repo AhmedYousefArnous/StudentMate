@@ -23,6 +23,11 @@ use App\Http\Resources\Materials\HandwritingFull as HandwritingFullResource;
 use App\Http\Resources\Socialization\Conversation as ConversationResource;
 use App\Http\Resources\Socialization\ConversationFull as ConversationFullResource;
 
+use App\Http\Resources\Socialization\groupFull as groupFullResource;
+
+use App\Http\Resources\Socialization\Channel as ChannelResource;
+use App\Http\Resources\Socialization\ChannelFull as ChannelFullResource;
+
 // Models
 use App\Models\Members\Students\Student;
 
@@ -35,6 +40,8 @@ use App\Models\Materials\LectureSection;
 use App\Models\Materials\Handwriting;
 
 use App\Models\Members\Students\Socialization\Conversation;
+use App\Models\Members\Students\Socialization\Channel;
+use App\Models\Members\Students\Socialization\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,10 +53,7 @@ use App\Models\Members\Students\Socialization\Conversation;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-// $respose = [
-//   'success' => false,
-//   'message' => "Not Found"
-// ];
+
 Route::middleware('api')->prefix('generic')->group(function() {
     Route::get('/', 'API\APIController@index')->name('api.index');
     Route::get('/{id}', 'API\APIController@show')->name('api.show');
@@ -85,6 +89,7 @@ Route::middleware('auth:student-api')
             ->get('/first/content', 'API\StudentProfileController@firstProfileContent')
             ->name('api.student.profile.first.update.content');
 
+// Materials
 // Series
 Route::middleware('auth:student-api')->prefix('series')->group(function() {
   Route::get('/', function() {
@@ -116,7 +121,6 @@ Route::middleware('auth:student-api')->prefix('series')->group(function() {
     return new SeriesVersionFullResource($series);
   });
 });
-
 // Lectures
 Route::middleware('auth:student-api')
   ->name('api.lecture')
@@ -149,9 +153,11 @@ Route::middleware('auth:student-api')
         }
         return new LectureSectionResource($section);
    }   
-  );
+);
+
 
 // Socializations
+// Conversations
 Route::middleware('auth:student-api') 
   ->name('api.student.conversastion')
   ->get('/conversations/{conversation_id}', function($conversation_id) {
@@ -159,11 +165,32 @@ Route::middleware('auth:student-api')
         return new ConversationFullResource($conversation);
 });  
 
-
+// Channels
+// ALL
+Route::middleware('auth:student-api') 
+  ->name('api.channels')
+  ->get('/channels', function() {
+        return ChannelResource::collection(Channel::all());
+});  
+// Specific
 Route::middleware('auth:student-api') 
   ->name('api.student.channels')
-  ->get('/channels/{channel_id}', function($channel_id) {
-        $channel = Student::find(auth()->user()->id)->Channels()->find($channel_id);
-        return new ConversationFullResource($channel);
-});  
+  ->get('/channels/{channel_id}', function($channel_id) {    
+        return new  ChannelFullResource(Channel::find($channel_id));
+});
 
+// Groups
+// Subscribed
+Route::middleware('auth:student-api') 
+  ->name('api.student.group.subcribed')
+  ->get('/groups/subscribed/{group_id}', function($group_id) {
+        $group = Student::find(auth()->user()->id)->SubsribedGroups()->find($group_id);
+        return new groupFullResource($group);
+});
+// Managed
+Route::middleware('auth:student-api') 
+  ->name('api.student.group.managed')
+  ->get('/groups/managed/{group_id}', function($group_id) {
+        $group = Student::find(auth()->user()->id)->ManagedGroups()->find($group_id);
+        return new groupFullResource($group);
+});
