@@ -161,7 +161,14 @@ Route::middleware('auth:student-api')
         $conversation = Student::find(auth()->user()->id)->Conversations()->find($conversation_id);
         return new ConversationFullResource($conversation);
 });  
+Route::middleware('auth:student-api')->prefix('conversations')->group(function() {
+  Route::post('/messages', 'API\Socialization\MessagesAPIController@create')
+                ->name('api.Conversations.Messages.create');
 
+  Route::delete('/{conversation_id}/messages/{message_id}/{me}', 'API\Socialization\MessagesAPIController@delete')
+              ->name('api.Conversations.Messages.delete');
+  
+});
 // Channels
 Route::middleware('auth:student-api')->prefix('channels')->group(function() {
   Route::get('/', 'API\Socialization\ChannelAPIController@index')

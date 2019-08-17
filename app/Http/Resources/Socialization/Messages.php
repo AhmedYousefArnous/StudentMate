@@ -17,7 +17,6 @@ class Messages extends JsonResource
       return [
         'id'              => $this->id,
         'sender_id'       => $this->sender_id,
-        'reciever_id'     => $this->reciever_id,
         'created'         => $this->created_at,
         'message'         => $this->message,
         'url'             => json_decode($this->media_url),

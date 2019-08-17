@@ -21,8 +21,6 @@ class Conversation extends Model
   // hasMany Relations
   public function Messages() {
     return $this->hasMany('App\Models\Members\Students\Socialization\Message')
-                ->where('sender_id', auth()->user()->id)
-                ->orWhere('reciever_id', auth()->user()->id)
                 ->where('delete_for_me', '<>' , 1);
   }
 }
