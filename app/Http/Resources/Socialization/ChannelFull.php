@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Socialization;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Student;
 
 class ChannelFull extends JsonResource
 {
@@ -18,8 +19,11 @@ class ChannelFull extends JsonResource
             'id'              => $this->id,
             'name'            => $this->name,
             'description'     => $this->description,
+            
             'created'         => $this->created_at,
-            'notifications'   => Notification::collection($this->Notifications)
+            'creator'         => new Student($this->Creator),
+            'notifications'   => Notification::collection($this->Notifications),
+            'admins'          => Student::collection($this->Admins)
           ];
    
     }

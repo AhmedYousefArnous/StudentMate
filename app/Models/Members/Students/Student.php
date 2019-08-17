@@ -42,10 +42,17 @@ class Student extends \TCG\Voyager\Models\User
                     ->where('group_id' ,null);
     }
 
-    public function Channels() {
+    // hasMany Relations  
+    public function SubscribedChannels() {
       return $this->belongsToMany(
         'App\Models\Members\Students\Socialization\Channel',
          'channels_subscribers', 'student_id', 'channel_id');
+    }
+
+    public function ManagedChannels() {
+      return $this->belongsToMany(
+        'App\Models\Members\Students\Socialization\Channel',
+         'channels_admins', 'student_id', 'channel_id');
     }
 
     public function SubsribedGroups() {

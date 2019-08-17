@@ -36,9 +36,12 @@ class StudentFull extends JsonResource
                  // Relations
                  'enrolled_series' => Materials\Series::collection($this->Series),
                  'Conversations'   => Socialization\Conversation::collection($this->Conversations),
-                 'Channels'   => Socialization\Channel::collection($this->Channels),
+                 'Channels' => [
+                  'managed'   => Socialization\Channel::collection($this->ManagedChannels),
+                  'subscribed'   => Socialization\Channel::collection($this->SubscribedChannels),
+                  ],
                  'groups' => [
-                   'managed'   => new Socialization\Group($this->ManagedGroups),
+                   'managed'      => Socialization\Group::collection($this->ManagedGroups),
                    'subscribed'   => Socialization\Group::collection($this->SubsribedGroups)
                    ],
                  'connections' => [

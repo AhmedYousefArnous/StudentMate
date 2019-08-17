@@ -25,9 +25,6 @@ use App\Http\Resources\Socialization\ConversationFull as ConversationFullResourc
 
 use App\Http\Resources\Socialization\groupFull as groupFullResource;
 
-use App\Http\Resources\Socialization\Channel as ChannelResource;
-use App\Http\Resources\Socialization\ChannelFull as ChannelFullResource;
-
 // Models
 use App\Models\Members\Students\Student;
 
@@ -166,17 +163,34 @@ Route::middleware('auth:student-api')
 });  
 
 // Channels
-// ALL
-Route::middleware('auth:student-api') 
-  ->name('api.channels')
-  ->get('/channels', function() {
-        return ChannelResource::collection(Channel::all());
-});  
-// Specific
-Route::middleware('auth:student-api') 
-  ->name('api.student.channels')
-  ->get('/channels/{channel_id}', function($channel_id) {    
-        return new  ChannelFullResource(Channel::find($channel_id));
+Route::middleware('auth:student-api')->prefix('channels')->group(function() {
+  Route::get('/', 'API\Socialization\ChannelAPIController@index')
+                ->name('api.channels');
+
+  Route::post('/', 'API\Socialization\ChannelAPIController@create')
+                ->name('api.channels.create');
+
+  Route::post('/{channel_id}', 'API\Socialization\ChannelAPIController@update')
+                ->name('api.channels.update');
+
+  Route::get('/{channel_id}', 'API\Socialization\ChannelAPIController@show')
+                ->name('api.student.channels');
+
+  Route::delete('/{channel_id}', 'API\Socialization\ChannelAPIController@destroy')
+              ->name('api.student.channels.destroy');
+  
+ Route::post('/subscription/{channel_id}', 'API\Socialization\ChannelAPIController@subscribe')
+              ->name('api.channels.subscribe');
+
+ Route::delete('/subscription/{channel_id}', 'API\Socialization\ChannelAPIController@unsubscribe')
+              ->name('api.channels.unsubscribe');
+
+  Route::post('/admin/{channel_id}/{student_id}', 'API\Socialization\ChannelAPIController@makeAdmin')
+              ->name('api.channels.make.admin');
+
+  Route::delete('/admin/{channel_id}/{student_id}', 'API\Socialization\ChannelAPIController@removeAdmin')
+              ->name('api.channels.remove.admin');
+
 });
 
 // Groups
