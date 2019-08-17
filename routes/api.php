@@ -21,7 +21,6 @@ use App\Http\Resources\Materials\LectureSection as LectureSectionResource;
 use App\Http\Resources\Materials\HandwritingFull as HandwritingFullResource;
 
 use App\Http\Resources\Socialization\Conversation as ConversationResource;
-use App\Http\Resources\Socialization\ConversationFull as ConversationFullResource;
 
 use App\Http\Resources\Socialization\groupFull as groupFullResource;
 
@@ -36,7 +35,6 @@ use App\Models\Materials\Lecture;
 use App\Models\Materials\LectureSection;
 use App\Models\Materials\Handwriting;
 
-use App\Models\Members\Students\Socialization\Conversation;
 use App\Models\Members\Students\Socialization\Channel;
 use App\Models\Members\Students\Socialization\Group;
 
@@ -155,13 +153,25 @@ Route::middleware('auth:student-api')
 
 // Socializations
 // Conversations
-Route::middleware('auth:student-api') 
-  ->name('api.student.conversastion')
-  ->get('/conversations/{conversation_id}', function($conversation_id) {
-        $conversation = Student::find(auth()->user()->id)->Conversations()->find($conversation_id);
-        return new ConversationFullResource($conversation);
-});  
+// Route::middleware('auth:student-api') 
+//   ->name('api.student.conversastion')
+//   ->get('/conversations/{conversation_id}', function($conversation_id) {
+     
+// });  
 Route::middleware('auth:student-api')->prefix('conversations')->group(function() {
+  Route::get('/{conversation_id}', 'API\Socialization\ConversationsAPIController@show')
+                ->name('api.conversastions');
+
+  Route::post('/', 'API\Socialization\ConversationsAPIController@create')
+                ->name('api.Conversations.create');
+
+  Route::post('/{conversation_id}', 'API\Socialization\ConversationsAPIController@update')
+                ->name('api.Conversations.update');
+  
+  Route::delete('/{conversation_id}', 'API\Socialization\ConversationsAPIController@destroy')
+                ->name('api.Conversations.destroy');
+  
+  // Messages
   Route::post('/messages', 'API\Socialization\MessagesAPIController@create')
                 ->name('api.Conversations.Messages.create');
 

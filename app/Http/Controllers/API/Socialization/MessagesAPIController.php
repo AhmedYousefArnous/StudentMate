@@ -81,6 +81,7 @@ class MessagesAPIController extends BaseAPIController
         if (!isset($message)) {
             return $this->sendError("Unauthorized Access. Incorrect data", 404);
         }
+        
         if($me){
             $message->delete();
         } else {

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conversation extends Model
 {
+  protected $fillable = [
+    'name'
+  ];
   // belongsToMany Relations
   public function Students() {
       return $this->belongsToMany(
