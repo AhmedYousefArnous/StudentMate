@@ -90,7 +90,6 @@ class ConversationsAPIController extends BaseAPIController
       
         
         $conversation = Student::find(auth()->user()->id)->Conversations()->find($conversation_id);
-        // return $this->sendResponse($conversation, ' Message Created Successfully');
 
         if (!isset($conversation)) {
             return $this->sendError("Not Found", 404);
@@ -120,11 +119,11 @@ class ConversationsAPIController extends BaseAPIController
         if (!isset($converation)) {
             return $this->sendError("Unauthorized Access 2", 401);
         }
-
-        DB::table('conversations_students')
-            ->where('conversation_id', $converation_id )
-            ->where('student_id', auth()->user()->id)
-            ->delete();
+        Student::find(auth()->user()->id)->Conversations()->detach($converation_id);
+        // DB::table('conversations_students')
+        //     ->where('conversation_id', $converation_id )
+        //     ->where('student_id', auth()->user()->id)
+        //     ->delete();
         
         return $this->sendResponse(null, 'Conversation Deleted Successfully');
     }

@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
-
+use DB;
 class Student extends \TCG\Voyager\Models\User
 {
     use Notifiable, HasApiTokens;
@@ -66,25 +66,62 @@ class Student extends \TCG\Voyager\Models\User
         'App\Models\Members\Students\Socialization\Group',
          'groups_admins', 'student_id', 'group_id');
     }
+    
     // hasMany
     public function SendConnections() {
       return $this->hasMany('App\Models\Members\Students\Socialization\Connection',
         'sender_id',
         'id'
-      );
+      )->where([ 'accept'  => 0, 'block'   => 0, 'sender_id'  => auth()->user()->id ]);
     }
 
     public function ReceivedConnections() {
       return $this->hasMany('App\Models\Members\Students\Socialization\Connection',
         'reciever_id',
         'id'
-      );
+      )->where([ 'accept'  => 0, 'block'   => 0 ]);
     }
 
     public function BlockedConnections() {
       return $this->hasMany('App\Models\Members\Students\Socialization\Connection',
         'blocker_id',
         'id'
-      );
+      )->where(['block'   => 1 , 'blocker_id'  => auth()->user()->id]);
+    }
+
+    public function Friends($connection_id = null) {
+      if (isset($connection_id)) {
+        return DB::table('connections')
+                    ->where(
+                      [
+                          ['id' , '=',  $connection_id],                        
+                          ['accept' , '=',  1],
+                          ['block' , '=',  0],
+                          ['sender_id' , '=',  auth()->user()->id],
+                      ])
+                    ->orWhere(
+                      [
+                        ['id' , '=',  $connection_id],                                                
+                        ['accept' , '=',  1],
+                        ['block' , '=',  0],
+                        ['reciever_id' , '=',   auth()->user()->id],
+                      ])
+                    ->first();
+      }
+
+      return DB::table('connections')
+                    ->where(
+                      [
+                          ['accept' , '=',  1],
+                          ['block' , '=',  0],
+                          ['sender_id' , '=',  auth()->user()->id],
+                      ])
+                    ->orWhere(
+                      [
+                        ['accept' , '=',  1],
+                        ['block' , '=',  0],
+                        ['reciever_id' , '=',   auth()->user()->id],
+                      ])
+                    ->get();                  
     }
 }

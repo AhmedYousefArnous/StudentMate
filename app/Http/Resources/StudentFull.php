@@ -45,31 +45,10 @@ class StudentFull extends JsonResource
                    'subscribed'   => Socialization\Group::collection($this->SubsribedGroups)
                    ],
                  'connections' => [
-                   'send' => Socialization\Connections::collection(
-                     $this->SendConnections()->where('accept', 0)->get()
-                   ),
-
-                   'reciever' =>  Socialization\Connections::collection(
-                     $this->ReceivedConnections()->where('accept', 0)->get()
-                   ),
-
-                   'current' => [
-                                 Socialization\Connections::collection(
-                                     $this->SendConnections()->where([
-                                       'accept'  => 1,
-                                       'block'   => 0
-                                       ])->get()
-                                 ),
-                                 Socialization\Connections::collection(
-                                   $this->ReceivedConnections()->where([
-                                     'accept'  => 1,
-                                     'block'   => 0
-                                     ])->get()
-                                 ),
-                               ],
-                     'blocked' => Socialization\Connections::collection(
-                       $this->BlockedConnections
-                     ),
+                   'send'       => Socialization\Connections::collection( $this->SendConnections ),
+                   'reciever'   =>  Socialization\Connections::collection( $this->ReceivedConnections ),
+                   'current'    =>  Socialization\Connections::collection( $this->Friends() ),
+                   'blocked'    => Socialization\Connections::collection( $this->BlockedConnections ),
                    ],
                ])
 

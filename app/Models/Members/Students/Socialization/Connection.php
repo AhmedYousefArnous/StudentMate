@@ -7,6 +7,10 @@ use App\Models\Members\Students\Student;
 
 class Connection extends Model
 {
+  protected $fillable = [
+    'sender_id', 'block', 'blocker_id'
+  ];
+
   public function Sender() {
     return $this->belongsTo('App\Models\Members\Students\Student', 'sender_id', 'id');
   }

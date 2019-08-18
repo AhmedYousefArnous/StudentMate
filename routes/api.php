@@ -152,12 +152,25 @@ Route::middleware('auth:student-api')
 
 
 // Socializations
-// Conversations
-// Route::middleware('auth:student-api') 
-//   ->name('api.student.conversastion')
-//   ->get('/conversations/{conversation_id}', function($conversation_id) {
-     
-// });  
+// Connections
+Route::middleware('auth:student-api')->prefix('connections')->group(function() {
+  
+  Route::post('/','API\Socialization\ConnectionsAPIController@create')
+            ->name('api.connections.create');
+
+  Route::delete('/{connection_id}','API\Socialization\ConnectionsAPIController@destroy')
+            ->name('api.connections.destroy');
+
+  Route::post('/{id}/accept','API\Socialization\ConnectionsAPIController@accept')
+            ->name('api.connections.accept');
+
+  Route::post('/{id}/block','API\Socialization\ConnectionsAPIController@block')
+            ->name('api.connections.block');
+
+  Route::post('/{id}/unblock','API\Socialization\ConnectionsAPIController@unblock')
+            ->name('api.connections.unblock');
+});
+// Conversations  
 Route::middleware('auth:student-api')->prefix('conversations')->group(function() {
   Route::get('/{conversation_id}', 'API\Socialization\ConversationsAPIController@show')
                 ->name('api.conversastions');
