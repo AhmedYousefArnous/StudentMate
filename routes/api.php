@@ -219,6 +219,16 @@ Route::middleware('auth:student-api')->prefix('channels')->group(function() {
   Route::delete('/admin/{channel_id}/{student_id}', 'API\Socialization\ChannelAPIController@removeAdmin')
               ->name('api.channels.remove.admin');
 
+  Route::prefix('/{channel_id}/notifications/')->group(function() {
+    Route::post('/', 'API\Socialization\NotificationsAPIController@addNotification')
+      ->name('api.channels.notifications.add');
+
+    Route::post('/{notification_id}', 'API\Socialization\NotificationsAPIController@updateNotification')
+        ->name('api.channels.notifications.update');
+
+    Route::delete('/{notification_id}', 'API\Socialization\NotificationsAPIController@deleteNotification')
+      ->name('api.channels.notifications.destroy');
+  });
 });
 
 // Groups
