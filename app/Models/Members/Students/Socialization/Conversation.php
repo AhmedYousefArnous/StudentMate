@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Conversation extends Model
 {
   protected $fillable = [
-    'name'
+    'name', 'group_id'
   ];
   // belongsToMany Relations
   public function Students() {

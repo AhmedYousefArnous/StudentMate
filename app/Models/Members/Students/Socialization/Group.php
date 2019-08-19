@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
+    protected $fillable = [
+        'name'
+    ];
     // belongsToRelations
     public function Creator() {
         return $this->belongsTo('App\Models\Members\Students\Student');

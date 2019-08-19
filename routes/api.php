@@ -22,7 +22,6 @@ use App\Http\Resources\Materials\HandwritingFull as HandwritingFullResource;
 
 use App\Http\Resources\Socialization\Conversation as ConversationResource;
 
-use App\Http\Resources\Socialization\groupFull as groupFullResource;
 
 // Models
 use App\Models\Members\Students\Student;
@@ -36,7 +35,6 @@ use App\Models\Materials\LectureSection;
 use App\Models\Materials\Handwriting;
 
 use App\Models\Members\Students\Socialization\Channel;
-use App\Models\Members\Students\Socialization\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -224,17 +222,43 @@ Route::middleware('auth:student-api')->prefix('channels')->group(function() {
 });
 
 // Groups
-// Subscribed
-Route::middleware('auth:student-api') 
-  ->name('api.student.group.subcribed')
-  ->get('/groups/subscribed/{group_id}', function($group_id) {
-        $group = Student::find(auth()->user()->id)->SubsribedGroups()->find($group_id);
-        return new groupFullResource($group);
+Route::middleware('auth:student-api')->prefix('groups')->group(function() {
+  // Index
+  Route::get('subscribed/{group_id}', 'API\Socialization\GroupsAPIController@indexSubscribed')
+            ->name('api.groups.subcribed');
+
+  Route::get('managed/{group_id}', 'API\Socialization\GroupsAPIController@indexManaged')
+            ->name('api.groups.managed');
+
+  // CRUD
+  Route::post('/', 'API\Socialization\GroupsAPIController@create')
+            ->name('api.groups.create');
+
+  Route::post('/{group_id}', 'API\Socialization\GroupsAPIController@update')
+            ->name('api.groups.update');
+  // Students          
+  Route::post('/{group_id}/students/', 'API\Socialization\GroupsAPIController@addStudents')
+          ->name('api.groups.students.add');
+
+  Route::post('/{group_id}/students/remove', 'API\Socialization\GroupsAPIController@removeStudents')
+          ->name('api.groups.students.remove');
+
+  Route::delete('/{group_id}/students/leave', 'API\Socialization\GroupsAPIController@leave')
+          ->name('api.groups.students.leave');
+
+  // Admins
+  Route::post('/{group_id}/admins/', 'API\Socialization\GroupsAPIController@addAdmins')
+          ->name('api.groups.admins.add');
+
+  Route::post('/{group_id}/admins/remove', 'API\Socialization\GroupsAPIController@removeAdmins')
+          ->name('api.groups.admins.remove');
+
+  // Conversations
+  Route::post('/{group_id}/conversations/', 'API\Socialization\GroupsAPIController@addConversation')
+          ->name('api.groups.conversations.add');
+
+  Route::delete('/{group_id}/conversations/{conversation_id}', 'API\Socialization\GroupsAPIController@removeConversation')
+          ->name('api.groups.conversations.remove');
+  
 });
-// Managed
-Route::middleware('auth:student-api') 
-  ->name('api.student.group.managed')
-  ->get('/groups/managed/{group_id}', function($group_id) {
-        $group = Student::find(auth()->user()->id)->ManagedGroups()->find($group_id);
-        return new groupFullResource($group);
-});
+
