@@ -93,8 +93,19 @@ return [
     'database' => [
         'tables' => [
             'hidden' => [
-              'migrations', 'data_rows', 'data_types', 'menu_items',
-              'password_resets', 'permission_role', 'settings'
+              'migrations', 
+              'data_rows', 
+              'data_types', 
+              'menu_items',
+              'password_resets',
+               'permission_role', 
+               'settings',
+               'oauth_access_tokens',
+               'oauth_auth_codes',
+               'oauth_clients',
+               'oauth_personal_access_clients',
+               'oauth_refresh_tokens',
+               'user_roles'
             ],
         ],
     ],
@@ -163,9 +174,9 @@ return [
         ],
 
         'widgets' => [
-            'TCG\\Voyager\\Widgets\\UserDimmer',
-            'TCG\\Voyager\\Widgets\\PostDimmer',
-            'TCG\\Voyager\\Widgets\\PageDimmer',
+            'App\\Widgets\\AdminDimmer',
+            'App\\Widgets\\StudentDimmer',
+            'App\\Widgets\\SeriesDimmer',
         ],
 
     ],
@@ -190,7 +201,7 @@ return [
         'add_permission' => true,
 
         // which role add premissions to
-        'default_role' => 'admin',
+        'default_role' => 'coordinator',
     ],
 
     /*
