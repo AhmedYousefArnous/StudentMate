@@ -63,7 +63,7 @@ class ChannelAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200 ,$validator->errors());
         }
 
         $channel = Channel::create([
@@ -95,7 +95,7 @@ class ChannelAPIController extends BaseAPIController
         $channel = Student::find(auth()->user()->id)->ManagedChannels()->find($id);
 
         if (!isset($channel) ) {
-            return $this->sendError("Not Found", 404);
+            return $this->sendError("Not Found");
         }
 
         $validator = Validator::make($request->all(),[
@@ -103,7 +103,7 @@ class ChannelAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }
 
         $channel->name          =  $request->input('name');
@@ -130,7 +130,7 @@ class ChannelAPIController extends BaseAPIController
         $channel = Student::find(auth()->user()->id)->ManagedChannels()->find($id);
         
         if (!isset($channel)) {
-            return $this->sendError("Not Found", 404);
+            return $this->sendError("Not Found");
         }
       
         $channel->delete();
@@ -154,7 +154,7 @@ class ChannelAPIController extends BaseAPIController
             return $this->sendResponse(null, 'Channel Subcribed Successfully');        
         }
 
-        return $this->sendError("Not Found", 404);
+        return $this->sendError("Not Found");
          
     }
 
@@ -174,7 +174,7 @@ class ChannelAPIController extends BaseAPIController
             return $this->sendResponse(null, 'Channel unSubscribed Successfully');        
         }
 
-        return $this->sendError("Not Found", 404);
+        return $this->sendError("Not Found");
 
     }
 
@@ -190,7 +190,7 @@ class ChannelAPIController extends BaseAPIController
 
         if (!isset($channel) || !isset($admin_student) )
         {
-            return $this->sendError("Not Found", 404);
+            return $this->sendError("Not Found");
         }
 
         if (
@@ -198,7 +198,7 @@ class ChannelAPIController extends BaseAPIController
             $admin_student->ManagedChannels()->find($channel->id) === null ) 
         {
             $channel->Admins()->attach($admin_student);           
-            return $this->sendResponse($admin_student->username . ' is now admin Successfully');        
+            return $this->sendResponse(null, $admin_student->username . ' is now admin Successfully');        
         }
 
         return $this->sendError("Unauthorized Access", 401);
@@ -217,7 +217,7 @@ class ChannelAPIController extends BaseAPIController
 
         if (!isset($channel) || !isset($admin_student) )
         {
-            return $this->sendError("Not Found", 404);
+            return $this->sendError("Not Found");
         }
 
         if (
@@ -225,7 +225,7 @@ class ChannelAPIController extends BaseAPIController
             $admin_student->ManagedChannels()->find($channel->id) !== null ) 
         {
             $channel->Admins()->detach($admin_student);           
-            return $this->sendResponse($admin_student->username . ' removed from admins Successfully');        
+            return $this->sendResponse(null, $admin_student->username . ' removed from admins Successfully');        
         }
 
         return $this->sendError("Unauthorized Access", 401);

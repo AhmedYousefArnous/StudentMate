@@ -38,7 +38,7 @@ class StudentProfileController extends APIController
         $val = $this->validateBread($request->all(), $dataType->addRows);
 
         if ($val->fails()) {
-            return $this->sendError($val->messages());
+            return $this->sendError("Validation Falid", 200, $val->messages() );
         }
 
 
@@ -48,7 +48,6 @@ class StudentProfileController extends APIController
             event(new BreadDataAdded($dataType, $data));
 
             return $this->sendResponse(null, "Student Created Successfully");
-
         }
 
 
@@ -87,11 +86,11 @@ class StudentProfileController extends APIController
         }
 
         if(!empty($this->checks)) {
-          return  $this->sendError("Validation Failed", $this->checks);
+          return  $this->sendError("Validation Failed", 200 ,$this->checks);
         }
         $student->save();
 
-        return $this->sendResponse(true, 'Student Data Updated Successfully');
+        return $this->sendResponse(null, 'Student Data Updated Successfully');
 
     }
 
@@ -115,7 +114,7 @@ class StudentProfileController extends APIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }
 
 
@@ -136,7 +135,7 @@ class StudentProfileController extends APIController
 
         $student->save();
 
-        return $this->sendResponse(true, 'Student Data Updated Successfully');
+        return $this->sendResponse(null, 'Student Data Updated Successfully');
 
     }
 
@@ -146,16 +145,16 @@ class StudentProfileController extends APIController
             return $this->sendError("Unauthorized", 401);
         }
       
-
         return $this->sendResponse(UniversityFullResource::collection(University::all()));    
     }
-      public function optionalValidation($column , $constraints) {
-          $validator = Validator::make($this->inputs,[
-              $column    => $constraints
-          ]);
+    
+    public function optionalValidation($column , $constraints) {
+        $validator = Validator::make($this->inputs,[
+            $column    => $constraints
+        ]);
 
-          if ($validator->fails()) {
-              $this->checks[] = $validator->errors();
-          }
-      }
+        if ($validator->fails()) {
+            $this->checks[] = $validator->errors();
+        }
+    }
 }

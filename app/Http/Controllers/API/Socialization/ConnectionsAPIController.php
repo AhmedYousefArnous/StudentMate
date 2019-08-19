@@ -27,7 +27,7 @@ class ConnectionsAPIController extends BaseAPIController
         $student = Student::find($request->reciever_id);
         
         if(auth()->user()->id == $request->reciever_id) {
-            return $this->sendError("You Can't Send a connection request to yourself!");
+            return $this->sendError("You Can't Send a connection request to yourself!", 401);
         }
   
         $connection = Connection::
@@ -44,7 +44,7 @@ class ConnectionsAPIController extends BaseAPIController
                                  ->first();
   
         if (isset($connection)) {
-            return $this->sendError("Connection Request have been already sent");
+            return $this->sendError("Connection Request have been already sent", 401);
         }
 
         if (!isset($student)) {
@@ -138,7 +138,7 @@ class ConnectionsAPIController extends BaseAPIController
         }
   
         if ($connection->accept) {
-          return $this->sendError("Connection is already accepted");
+          return $this->sendError("Connection is already accepted", 401);
         }
   
         $connection->accept = true;

@@ -58,7 +58,7 @@ class GroupsAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }
 
         $group = group::create([
@@ -92,13 +92,13 @@ class GroupsAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }
 
         $group = Student::find(auth()->user()->id)->ManagedGroups()->find($group_id);
         
         if(!isset($group)) {
-            return $this->sendError("Group is Not Found", 404);            
+            return $this->sendError("Group is Not Found");            
         }
 
         $group->name = $request->name;
@@ -124,7 +124,7 @@ class GroupsAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }
 
         $group = Student::find(auth()->user()->id)->ManagedGroups()->find($group_id);
@@ -159,13 +159,13 @@ class GroupsAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }
 
         $group = Student::find(auth()->user()->id)->ManagedGroups()->find($group_id);
         
         if(!isset($group)) {
-            return $this->sendError("Unauthorized Access", 404);            
+            return $this->sendError("Unauthorized Access", 401);            
         }
 
         $ids = explode(',',$request->students_ids);
@@ -193,7 +193,7 @@ class GroupsAPIController extends BaseAPIController
         $group = Student::find(auth()->user()->id)->SubsribedGroups()->find($group_id);
         
         if(!isset($group)) {
-            return $this->sendError("Unauthorized Access", 404);            
+            return $this->sendError("Unauthorized Access", 401);            
         }
 
         $group->Members()->detach(auth()->user()->id);
@@ -214,7 +214,7 @@ class GroupsAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }
 
         $group = Student::find(auth()->user()->id)->ManagedGroups()->find($group_id);
@@ -249,7 +249,7 @@ class GroupsAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }
 
         $group = Student::find(auth()->user()->id)->ManagedGroups()->find($group_id);
@@ -284,7 +284,7 @@ class GroupsAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }
         
         $group = Student::find(auth()->user()->id)->SubsribedGroups()->find($group_id);

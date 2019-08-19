@@ -31,7 +31,7 @@ class ConversationsAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }
         
         
@@ -68,7 +68,7 @@ class ConversationsAPIController extends BaseAPIController
         $conversation = Student::find(auth()->user()->id)->Conversations()->find($conversation_id);
       
         if (!isset($conversation)) {
-            return $this->sendError("Conversation Not Found. Incorrect data", 404);
+            return $this->sendError("Conversation Not Found. Incorrect data");
         }
       
 
@@ -92,7 +92,7 @@ class ConversationsAPIController extends BaseAPIController
         $conversation = Student::find(auth()->user()->id)->Conversations()->find($conversation_id);
 
         if (!isset($conversation)) {
-            return $this->sendError("Not Found", 404);
+            return $this->sendError("Not Found");
         }
 
         $conversation->name          =  $request->input('name');        
@@ -117,7 +117,7 @@ class ConversationsAPIController extends BaseAPIController
         $converation = Student::find(auth()->user()->id)->Conversations()->find($converation_id);
         
         if (!isset($converation)) {
-            return $this->sendError("Unauthorized Access 2", 401);
+            return $this->sendError("Unauthorized Access", 401);
         }
         Student::find(auth()->user()->id)->Conversations()->detach($converation_id);
         // DB::table('conversations_students')

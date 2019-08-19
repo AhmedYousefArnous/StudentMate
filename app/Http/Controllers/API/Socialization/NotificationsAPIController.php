@@ -31,7 +31,7 @@ class NotificationsAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }   
 
         $channel = Student::find(auth()->user()->id)->ManagedChannels()->find($channel_id);
@@ -70,7 +70,7 @@ class NotificationsAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }   
 
         $channel = Student::find(auth()->user()->id)

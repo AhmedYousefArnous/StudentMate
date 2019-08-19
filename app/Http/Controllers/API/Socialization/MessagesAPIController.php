@@ -28,12 +28,12 @@ class MessagesAPIController extends BaseAPIController
         ]);
 
         if($validator->fails()) {
-            return $this->sendError("Validation Failed", $validator->errors());
+            return $this->sendError("Validation Failed", 200, $validator->errors());
         }
         
         $conversation = Conversation::find($request->input('conversation_id'));
         if (!isset($conversation)) {
-            return $this->sendError("Conversation id is Not Found Failed");            
+            return $this->sendError("Conversation id is Not Found");            
         }
         
         $message = Message::create([
@@ -69,7 +69,7 @@ class MessagesAPIController extends BaseAPIController
         
         
         if (!isset($conversation)) {
-            return $this->sendError("Conversation Not Found. Incorrect data", 404);
+            return $this->sendError("Conversation Not Found.");
         }
       
         $message = $conversation
@@ -79,7 +79,7 @@ class MessagesAPIController extends BaseAPIController
                             ->first();
 
         if (!isset($message)) {
-            return $this->sendError("Unauthorized Access. Incorrect data", 404);
+            return $this->sendError("Unauthorized Access.", 401);
         }
         
         if($me){
@@ -88,7 +88,7 @@ class MessagesAPIController extends BaseAPIController
             $message->delete_for_me = 1;
             $message->save();
         }
-        return $this->sendResponse('Message Deleted Successfully');
+        return $this->sendResponse(null, 'Message Deleted Successfully');
         
     }
 
