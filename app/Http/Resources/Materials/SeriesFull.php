@@ -26,8 +26,8 @@ class SeriesFull extends JsonResource
             
             
             'created'    => $this->created_at,
-            // 'category'   => new Category($this->Category),
-            // 'banner'     => $this->banner,
+            'category'   => new Category($this->Category),
+            'banner'     => $this->banner,
             'description'   => $this->description,
             // 'professor_id'  => $this->professor_id,
             // 'updated'       => $this->updated_at,

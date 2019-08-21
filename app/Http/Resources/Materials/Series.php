@@ -21,9 +21,10 @@ class Series extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'university' => new University($this->University),
-            'faculty'    => new Faculty($this->Faculty),
+            'name'          => $this->name,
+            'university'    => new University($this->University),
+            'faculty'       => new Faculty($this->Faculty),
+            'banner'        => $this->banner,
             'verions'       => SeriesVersion::collection($this->Versions),
           ];
  

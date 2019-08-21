@@ -32,15 +32,22 @@ class StudentProfileController extends APIController
 
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug )->first();
 
+        
 
 
-        // Validate fields with ajax
+        // Validate fields
         $val = $this->validateBread($request->all(), $dataType->addRows);
 
         if ($val->fails()) {
             return $this->sendError("Validation Falid", 200, $val->messages() );
         }
 
+        $this->inputs = $request->all();
+        $this->optionalValidation('email', ['unique:students', 'string', 'email', 'max:255'] );
+        
+        if(!empty($this->checks)) {
+            return  $this->sendError("Validation Failed", 200 ,$this->checks);
+        }
 
         if (!$request->has('_validate')) {
             $data = $this->insertUpdateData($request, $slug, $dataType->addRows, new $dataType->model_name());
@@ -137,7 +144,7 @@ class StudentProfileController extends APIController
 
         $student->save();
 
-        return $this->sendResponse(null, 'Student Data Updated Successfully');
+        return $this->sendResponse($student, 'Student Data Updated Successfully');
 
     }
 
