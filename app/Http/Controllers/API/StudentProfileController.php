@@ -10,7 +10,7 @@ use TCG\Voyager\Events\BreadDataAdded;
 use TCG\Voyager\Models\DataType;
 use Illuminate\Support\Facades\Hash;
 use TCG\Voyager\Database\Schema\SchemaManager;
-use App\Models\Student;
+use App\Models\Members\Students\Student;
 use Validator;
 
 use App\Http\Resources\Structure\UniversityFull as UniversityFullResource;

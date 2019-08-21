@@ -22,7 +22,7 @@ namespace App\Http\Resources;
                                         ( $this->term ? 'Second' : 'First') : null, 
     'gender'          => $options->gender ? 
                                         ( $this->gender ? 'Male' : 'Famale') : null,
-    // 'nationality'     => $this->nationality,
+    'nationality'     => $this->nationality,
     // 'options'         => $options,
     'email'           => $options->email ? $this->email : null,
     'phone'           => $options->phone_number ?  $this->phone : null ,
