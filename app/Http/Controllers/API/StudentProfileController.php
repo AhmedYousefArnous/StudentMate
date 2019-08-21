@@ -110,7 +110,8 @@ class StudentProfileController extends APIController
             'term' => ['required'],
             'card_id' => ['required'],
             'username_ar' => ['required'],
-            'gender' => ['required'],
+            'gender'            => ['required'],
+            'nationality'       => ['required']
         ]);
 
         if($validator->fails()) {
@@ -131,6 +132,7 @@ class StudentProfileController extends APIController
         $student->level_id          = $input['level_id'];
         $student->gender            = $input['gender'];
         $student->term              = $input['term'];
+        $student->nationality       = $input['nationality'];
 
 
         $student->save();

@@ -32,6 +32,7 @@ class StudentFull extends JsonResource
                 'phone'           => $this->phone  ,
                 'card_id'         => $this->card_id,
                 'updated'         => $this->updated_at,
+                'nationality'      => $this->nationality,
                 'options'         => json_decode($this->options),
                  // Relations
                  'enrolled_series' => Materials\Series::collection($this->Series),
