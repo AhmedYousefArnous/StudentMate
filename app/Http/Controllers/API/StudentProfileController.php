@@ -143,7 +143,7 @@ class StudentProfileController extends APIController
 
 
         $student->save();
-
+        $student->options = json_decode($student->options);
         return $this->sendResponse($student, 'Student Data Updated Successfully');
 
     }

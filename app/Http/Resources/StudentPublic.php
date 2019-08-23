@@ -16,14 +16,14 @@ namespace App\Http\Resources;
     'university'      => $options->university ? new Structure\University($this->University): null,
     'faculty'         => $options->faculty ? new Structure\Faculty($this->Faculty) : null,
     'department'      => $options->department ? new Structure\Department($this->Department) : null,
-    'level'           => $options->level ?new Structure\Level($this->Level) : null,
+    'level'           => $options->level ? new Structure\Level($this->Level) : null,
     'section'         => $options->section ? $this->section : null,
     'term'            => $options->term_no ? $this->term 
                                         ( $this->term ? 'Second' : 'First') : null, 
     'gender'          => $options->gender ? 
                                         ( $this->gender ? 'Male' : 'Famale') : null,
     'nationality'     => $this->nationality,
-    'options'         => $options,
+    'options'         => json_decode($this->options),
     'email'           => $options->email ? $this->email : null,
     'phone'           => $options->phone_number ?  $this->phone : null ,
   ];
