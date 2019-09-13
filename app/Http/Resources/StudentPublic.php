@@ -23,7 +23,6 @@ namespace App\Http\Resources;
     'gender'          => $options->gender ? 
                                         ( $this->gender ? 'Male' : 'Famale') : null,
     'nationality'     => $this->nationality,
-    'options'         => json_decode($this->options),
     'email'           => $options->email ? $this->email : null,
     'phone'           => $options->phone_number ?  $this->phone : null ,
   ];
