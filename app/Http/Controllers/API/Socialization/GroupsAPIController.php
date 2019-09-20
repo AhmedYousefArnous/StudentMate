@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\Socialization;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseAPIController;
 use Validator;
-use App\Http\Resources\Socialization\groupFull as groupFullResource;
+use App\Http\Resources\Socialization\GroupFull as groupFullResource;
 
 use App\Models\Members\Students\Socialization\Group;
 use App\Models\Members\Students\Socialization\Conversation;

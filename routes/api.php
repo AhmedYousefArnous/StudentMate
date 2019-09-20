@@ -183,7 +183,7 @@ Route::middleware('auth:student-api')->prefix('conversations')->group(function()
                 ->name('api.Conversations.destroy');
   
   // Messages
-  Route::post('/messages', 'API\Socialization\MessagesAPIController@create')
+  Route::post('/{conversation_id}/messages', 'API\Socialization\MessagesAPIController@createMessage')
                 ->name('api.Conversations.Messages.create');
 
   Route::delete('/{conversation_id}/messages/{message_id}/{me}', 'API\Socialization\MessagesAPIController@delete')

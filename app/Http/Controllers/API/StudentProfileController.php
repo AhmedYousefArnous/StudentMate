@@ -100,8 +100,7 @@ class StudentProfileController extends APIController
         return $this->sendResponse(null, 'Student Data Updated Successfully');
 
     }
-
-
+    
     public function firstProfile(Request $request) {
 
         if(!$request->expectsJson()) {

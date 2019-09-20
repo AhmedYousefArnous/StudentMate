@@ -16,22 +16,21 @@ class MessagesAPIController extends BaseAPIController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function createMessage(Request $request, $conversation_id)
     {
         if(!$request->expectsJson()) {
             return $this->sendError("Unauthorized", 401);
         }
       
         $validator = Validator::make($request->all(),[
-            'message'           => 'required',
-            'conversation_id'   => 'required'
+            'message'           => 'required'
         ]);
 
         if($validator->fails()) {
             return $this->sendError("Validation Failed", 200, $validator->errors());
         }
         
-        $conversation = Conversation::find($request->input('conversation_id'));
+        $conversation = auth()->user()->Conversations()->find($conversation_id);
         if (!isset($conversation)) {
             return $this->sendError("Conversation id is Not Found");            
         }
