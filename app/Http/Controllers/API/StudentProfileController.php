@@ -14,6 +14,7 @@ use App\Models\Members\Students\Student;
 use Validator;
 
 use App\Http\Resources\Structure\UniversityFull as UniversityFullResource;
+use App\Http\Resources\Student as StudentResource;
 use App\Models\Structure\University;
 
 class StudentProfileController extends APIController
@@ -21,6 +22,7 @@ class StudentProfileController extends APIController
 
     protected $inputs = [];
     protected $checks = [];
+    protected $paginate_number = 20;
 
     public function register(Request $request) {
 
@@ -170,6 +172,57 @@ class StudentProfileController extends APIController
       
         return $this->sendResponse(UniversityFullResource::collection(University::all()));    
     }
+
+    public function search(Request $request) {
+        if(!$request->expectsJson()) {
+            return $this->sendError("Unauthorized", 401);
+        }
+      
+        $dataType = Voyager::model('DataType')->where('slug','=' ,'students')->first();
+      
+      
+        if (strlen($dataType->model_name) != 0) {
+            $model = app($dataType->model_name);
+            $searchable = false;
+
+    
+            // Order Params
+            $order_by = (isset($request->order_by) && in_array($request->order_by, $dataType->fields()))
+                                ?  $request->order_by : $dataType->order_column;
+    
+            $order_direction = isset($request->order_direction)
+                                ?  $request->order_direction : "desc";
+    
+    
+            // Search Params
+            $search_value     = '';
+            $search_filter    = '';
+    
+            if ($request->search && $request->key && $request->filter) {
+            $search_filter = ($request->filter == 'equals') ? '=' : 'LIKE';
+            $search_value = ($request->filter == 'equals') ? $request->search : '%'.$request->search.'%';
+            $searchable = true;
+            }
+    
+            if($searchable) {
+            $dataWithoutRelations =
+                $model::where($request->key, $search_filter, $search_value)
+                            ->orderBy($order_by, $order_direction)
+                            ->paginate($this->paginate_number);
+    
+            } else {
+                $dataWithoutRelations =
+                $model::orderBy($order_by, $order_direction)
+                            ->paginate($this->paginate_number);
+            }
+    
+        
+        } else {
+            $dataWithoutRelations = DB::table($dataType->name)->all();
+        }
+    
+        return $this->sendResponse(StudentResource::collection($dataWithoutRelations));
+    }
     
     public function optionalValidation($column , $constraints) {
         $validator = Validator::make($this->inputs,[
@@ -180,4 +233,5 @@ class StudentProfileController extends APIController
             $this->checks[] = $validator->errors();
         }
     }
+
 }

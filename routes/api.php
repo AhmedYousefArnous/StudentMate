@@ -47,11 +47,11 @@ use App\Models\Members\Students\Socialization\Channel;
 |
 */
 
-Route::middleware('api')->prefix('generic')->group(function() {
-    Route::get('/', 'API\APIController@index')->name('api.index');
-    Route::get('/{id}', 'API\APIController@show')->name('api.show');
+// Route::middleware('api')->prefix('generic')->group(function() {
+//     Route::get('/', 'API\APIController@index')->name('api.index');
+//     Route::get('/{id}', 'API\APIController@show')->name('api.show');
 
-});
+// });
 
 
 // Student Routes
@@ -68,15 +68,15 @@ Route::middleware('auth:student-api')->prefix('student')->group(function() {
     return new StudentFullResource(Student::find(auth()->user()->id));
   });
   
-  Route::get('/{id}', function($id) {
-    return new StudentResource(Student::find($id));
-  });
-
   Route::post('/', 'API\StudentProfileController@updateProfile')->name('api.student.profile.update');
 
   Route::post('/first', 'API\StudentProfileController@firstProfile')->name('api.student.profile.first.update');
   Route::post('/options', 'API\StudentProfileController@updateProfileOptions')->name('api.student.profile.updateOptions');
-
+  Route::get('/search', 'API\StudentProfileController@search')->name('api.students.search');
+  
+  Route::get('/{id}', function($id) {
+    return new StudentResource(Student::find($id));
+  });
 });
 
 Route::middleware('auth:student-api')
