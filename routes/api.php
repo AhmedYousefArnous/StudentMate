@@ -75,6 +75,7 @@ Route::middleware('auth:student-api')->prefix('student')->group(function() {
   Route::post('/', 'API\StudentProfileController@updateProfile')->name('api.student.profile.update');
 
   Route::post('/first', 'API\StudentProfileController@firstProfile')->name('api.student.profile.first.update');
+  Route::post('/options', 'API\StudentProfileController@updateProfileOptions')->name('api.student.profile.updateOptions');
 
 });
 

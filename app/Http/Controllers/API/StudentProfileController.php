@@ -101,6 +101,21 @@ class StudentProfileController extends APIController
 
     }
     
+    public function updateProfileOptions(Request $request) {
+
+        if(!$request->expectsJson()) {
+            return $this->sendError("Unauthorized", 401);
+        }
+
+        $student = Student::find(auth()->user()->id);
+
+        $student->options     = json_encode($request->all());
+
+        $student->save();
+        return $this->sendResponse($student, 'Student Data Updated Successfully');
+
+    }
+
     public function firstProfile(Request $request) {
 
         if(!$request->expectsJson()) {
