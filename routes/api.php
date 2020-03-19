@@ -103,7 +103,10 @@ Route::middleware('auth:student-api')->prefix('series')->group(function() {
   });
 
   Route::get('/{id}/{year}', function($id, $year) {
-    $series = SeriesVersion::where('year', $year)->firstOrFail();
+    $series = SeriesVersion::where([
+      'year' => $year,
+      'series_id' => $id
+    ])->firstOrFail();
     if(!isset($series))
     {
       $respose = [
