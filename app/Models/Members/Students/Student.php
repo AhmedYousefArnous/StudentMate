@@ -11,6 +11,10 @@ class Student extends \TCG\Voyager\Models\User
 {
     use Notifiable, HasApiTokens;
 
+    protected $hidden = [
+      'password', 'remember_token',
+    ];
+    
     // belongsTo Relations
     public function University() {
       return $this->belongsTo('App\Models\Structure\University');
