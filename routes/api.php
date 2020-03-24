@@ -243,7 +243,9 @@ Route::middleware('auth:student-api')->prefix('groups')->group(function() {
 
   Route::get('managed/{group_id}', 'API\Socialization\GroupsAPIController@indexManaged')
             ->name('api.groups.managed');
-
+  // Index Conversations
+  Route::get('/{group_id}/conversations/{conversation_id}', 'API\Socialization\GroupsAPIController@getSubscribedConverastions')
+            ->name('api.groups.conversations.subcribed');
   // CRUD
   Route::post('/', 'API\Socialization\GroupsAPIController@create')
             ->name('api.groups.create');

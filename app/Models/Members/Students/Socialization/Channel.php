@@ -32,7 +32,7 @@ class Channel extends Model
     
     public function Subscribers() {
       return $this->belongsToMany(
-          'App\Models\Students\Student', 
+          'App\Models\Members\Students\Student', 
           'channels_subscribers', 
           'channel_id', 
           'student_id');

@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseAPIController;
 use Validator;
 use App\Http\Resources\Socialization\GroupFull as groupFullResource;
+use App\Http\Resources\Socialization\ConversationFull as ConversationFullResource;
 
 use App\Models\Members\Students\Socialization\Group;
 use App\Models\Members\Students\Socialization\Conversation;
@@ -27,6 +28,27 @@ class GroupsAPIController extends BaseAPIController
         return new groupFullResource($group);
     }
 
+    public function getSubscribedConverastions(Request $request, $group_id, $conversation_id) {
+        if(!$request->expectsJson()) {
+            return $this->sendError("Unauthorized", 401);
+        }
+      
+        $group = Student::find(auth()->user()->id)->SubsribedGroups()->find($group_id);        
+        
+        if(!isset($group)) {
+            return $this->sendError("Unauthorized Access", 401);            
+        }
+        
+        $conversation = $group->Conversations()->find($conversation_id);
+      
+        if (!isset($conversation)) {
+            return $this->sendError("Conversation Not Found. Incorrect data");
+        }  
+
+        return new ConversationFullResource($conversation);
+    }
+
+    
     public function indexManaged(Request $request, $group_id)
     {
         

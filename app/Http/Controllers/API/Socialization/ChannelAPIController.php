@@ -74,6 +74,7 @@ class ChannelAPIController extends BaseAPIController
         $channel->Creator()->associate(auth()->user());
 
         $channel->Admins()->attach(auth()->user()->id);
+        $channel->Subscribers()->attach(auth()->user()->id);
         $channel->save();
 
         return $this->sendResponse($channel, 'Channel Created Successfully');
