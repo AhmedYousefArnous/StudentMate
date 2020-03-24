@@ -246,6 +246,12 @@ Route::middleware('auth:student-api')->prefix('groups')->group(function() {
   // Index Conversations
   Route::get('/{group_id}/conversations/{conversation_id}', 'API\Socialization\GroupsAPIController@getSubscribedConverastions')
             ->name('api.groups.conversations.subcribed');
+  // CRUD Message in group convesrations
+  Route::post('/{group_id}/conversations/{conversation_id}/messages', 'API\Socialization\MessagesInGroupsAPIController@createMessage')
+            ->name('api.groups.conversations.messages.create');
+
+  Route::delete('/{group_id}/conversations/{conversation_id}/messages/{message_id}/{me}', 'API\Socialization\MessagesInGroupsAPIController@deleteMessage')
+            ->name('api.groups.conversations.messages.delete');
   // CRUD
   Route::post('/', 'API\Socialization\GroupsAPIController@create')
             ->name('api.groups.create');
