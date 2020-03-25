@@ -93,8 +93,23 @@ class Student extends \TCG\Voyager\Models\User
       )->where(['block'   => 1 , 'blocker_id'  => auth()->user()->id]);
     }
 
+    public function FriendsWithISendConnection() {
+      return $this->hasMany('App\Models\Members\Students\Socialization\Connection',
+        'sender_id',
+        'id'
+      )->where(['block'   => 0 , 'accept'  => 1]);
+    }
+
+
+    public function FriendsWithIRecievedConnection() {
+      return $this->hasMany('App\Models\Members\Students\Socialization\Connection',
+        'reciever_id',
+        'id'
+      )->where(['block'   => 0 , 'accept'  => 1]);
+    }
+
     public function Friends($connection_id = null) {
-      if (isset($connection_id)) {
+      // if (isset($connection_id)) {
         return DB::table('connections')
                     ->where(
                       [
@@ -111,21 +126,20 @@ class Student extends \TCG\Voyager\Models\User
                         ['reciever_id' , '=',   auth()->user()->id],
                       ])
                     ->first();
-      }
-
-      return DB::table('connections')
-                    ->where(
-                      [
-                          ['accept' , '=',  1],
-                          ['block' , '=',  0],
-                          ['sender_id' , '=',  auth()->user()->id],
-                      ])
-                    ->orWhere(
-                      [
-                        ['accept' , '=',  1],
-                        ['block' , '=',  0],
-                        ['reciever_id' , '=',   auth()->user()->id],
-                      ])
-                    ->get();                  
+      // }
+      // return DB::table('connections')
+      //               ->where(
+      //                 [
+      //                     ['accept' , '=',  1],
+      //                     ['block' , '=',  0],
+      //                     ['sender_id' , '=',  auth()->user()->id],
+      //                 ])
+      //               ->orWhere(
+      //                 [
+      //                   ['accept' , '=',  1],
+      //                   ['block' , '=',  0],
+      //                   ['reciever_id' , '=',   auth()->user()->id],
+      //                 ])
+      //               ->get();                  
     }
 }

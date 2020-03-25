@@ -48,7 +48,10 @@ class StudentFull extends JsonResource
                  'connections' => [
                    'send'       => Socialization\Connections::collection( $this->SendConnections ),
                    'reciever'   =>  Socialization\Connections::collection( $this->ReceivedConnections ),
-                   'current'    =>  Socialization\Connections::collection( $this->Friends() ),
+                   'current'    => [  
+                       Socialization\Connections::collection( $this->FriendsWithISendConnection ),
+                       Socialization\Connections::collection( $this->FriendsWithIRecievedConnection )
+                    ],
                    'blocked'    => Socialization\Connections::collection( $this->BlockedConnections ),
                    ],
                ])
