@@ -50,4 +50,12 @@ class SeriesVersion extends Model
     return $this->hasMany('App\Models\Materials\Exam');
   }
 
+  public function SectionsEntities() {
+    return $this->hasMany('App\Models\Materials\SectionEntity');
+  }
+  
+  public function LecturesEntities() {
+    return $this->hasMany('App\Models\Materials\LectureEntity');
+  }
+
 }

@@ -13,6 +13,8 @@ use App\Http\Resources\Materials\Recommendation;
 use App\Http\Resources\Materials\Exam;
 use App\Http\Resources\Materials\Part;
 use App\Http\Resources\Materials\Book;
+use App\Http\Resources\Materials\LectureEntity;
+use App\Http\Resources\Materials\SectionEntity;
 
 class SeriesVersionFull extends JsonResource
 {
@@ -50,6 +52,8 @@ class SeriesVersionFull extends JsonResource
             'books'                 => Book::collection($this->Books),
             'parts'                 => Part::collection($this->Parts),
             'exams'                 => Exam::collection($this->Exams),
+            'lecturesEntities'      => lectureEntity::collection($this->LecturesEntities),
+            'SectionsEntities'      => SectionEntity::collection($this->SectionsEntities)
           ];
  
     }
