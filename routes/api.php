@@ -284,3 +284,7 @@ Route::middleware('auth:student-api')->prefix('groups')->group(function() {
   
 });
 
+
+Route::middleware('auth:student-api')
+            ->post('/feedback', 'API\FeedbackAPIController@createFeedback')
+            ->name('api.student.feedback');
