@@ -93,6 +93,11 @@ class StudentProfileController extends APIController
             $this->optionalValidation('phone', ['string', 'max:20'] );
             $student->phone  = $this->inputs['phone'];
         }
+        if(!empty($this->inputs['is_first_login'])) {
+            $this->optionalValidation('is_first_login', ['Boolean'] );
+        }
+        $student->is_first_login  = $this->inputs['is_first_login'];
+
 
         if(!empty($this->checks)) {
           return  $this->sendError("Validation Failed", 200 ,$this->checks);

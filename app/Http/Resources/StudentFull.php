@@ -29,6 +29,7 @@ class StudentFull extends JsonResource
                 'term'            => $this->term ? 'Second' : 'First', 
                 'gender'          => $this->gender ? 'Male' : 'Famale',
                 'email'           => $this->email ,
+                'is_first_login'  => $this->is_first_login ,
                 'phone'           => $this->phone  ,
                 'card_id'         => $this->card_id,
                 'updated'         => $this->updated_at,
