@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\BaseController;
+use \TCG\Voyager\Http\Controllers\VoyagerBaseController;
 
-class BaseAPIController extends BaseController
+class BaseAPIController extends VoyagerBaseController
 {
     //
     public function sendResponse($data, $message = ""){

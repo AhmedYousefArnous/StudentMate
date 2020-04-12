@@ -72,31 +72,31 @@ class StudentProfileController extends APIController
         $this->inputs = $request->all();
         $student = Student::find(auth()->user()->id);
 
-        if(!empty($this->inputs['username'])) {
+        if(isset($this->inputs['username'])) {
             $this->optionalValidation('username', ['string', 'max:255'] );
             $student->username  = $this->inputs['username'];
         }
 
 
-        if(!empty($this->inputs['email'])) {
+        if(isset($this->inputs['email'])) {
             $this->optionalValidation('email', ['unique:students', 'string', 'email', 'max:255'] );
             $student->email  = $this->inputs['email'];
         }
 
-        if(!empty($this->inputs['password'])) {
+        if(isset($this->inputs['password'])) {
             $this->optionalValidation('password', ['string', 'min:8'] );
             $this->inputs['password'] = Hash::make($this->inputs['password']);
             $student->password  = $this->inputs['password'];
         }
 
-        if(!empty($this->inputs['phone'])) {
+        if(isset($this->inputs['phone'])) {
             $this->optionalValidation('phone', ['string', 'max:20'] );
             $student->phone  = $this->inputs['phone'];
         }
-        if(!empty($this->inputs['is_first_login'])) {
+        if(isset($this->inputs['is_first_login'])) {
             $this->optionalValidation('is_first_login', ['Boolean'] );
+            $student->is_first_login  = $this->inputs['is_first_login'];
         }
-        $student->is_first_login  = $this->inputs['is_first_login'];
 
 
         if(!empty($this->checks)) {
