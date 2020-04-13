@@ -16,7 +16,7 @@ use App\Http\Resources\Materials\SeriesVersionFull as SeriesVersionFullResource;
 
 
 use App\Http\Resources\Materials\LectureFull as LectureFullResource;
-use App\Http\Resources\Materials\LectureSection as LectureSectionResource;
+use App\Http\Resources\Materials\LectureSectionFull as LectureSectionFullResource;
 
 use App\Http\Resources\Materials\HandwritingFull as HandwritingFullResource;
 
@@ -148,7 +148,7 @@ Route::middleware('auth:student-api')
           ];          
           return response()->json($respose , 404);
         }
-        return new LectureSectionResource($section);
+        return new LectureSectionFullResource($section);
    }   
 );
 

@@ -23,7 +23,7 @@ class LectureSectionFull extends JsonResource
            'created'       => $this->created_at,
            'demonstrator' => new Demonstrator($this->Demonstrator),
            'url'           => json_decode($this->url),
-           'lecture'       => new Lecture($this->Lecture),
+          //  'lecture'       => new Lecture($this->Lecture),
            'description'   => $this->description,
            'video_url'     => $this->video_url
          ];
