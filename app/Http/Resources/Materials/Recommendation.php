@@ -19,7 +19,7 @@ class Recommendation extends JsonResource
             'name'        => $this->name,
 
             'description' => $this->description,
-            'url'            => json_decode($this->url),
+            'url'            => $this->url,
             'created'     => $this->created_at,
             // 'series'      => Series::collection($this->Series)
         ];
